@@ -5,6 +5,13 @@ env.ParseConfig("pkg-config libconfig++ --cflags --libs")
 env.ParseConfig("pkg-config libiqxmlrpc --cflags --libs")
 env.ParseConfig("pkg-config glibmm-2.4 --cflags --libs")
 
-env.Program('ecru-config', ['src/ecru-config.cc', 'src/Config.cc'])
-env.Program('ecru-post', ['src/ecru-post.cc', 'src/LiveJournal.cc', 'src/Config.cc', 'src/PostInfo.cc'])
-env.Program('ecru-list', ['src/ecru-list.cc', 'src/LiveJournal.cc', 'src/Config.cc', 'src/PostInfo.cc'])
+livejournalxx = env.SharedLibrary('livejournalxx', ['src/LiveJournal.cc', 'src/Config.cc', 'src/PostInfo.cc'])
+
+ecruconfig = env.Program('ecru-config', ['src/ecru-config.cc'], LIBS=['livejournalxx'], LIBPATH='.')
+ecrupost = env.Program('ecru-post', ['src/ecru-post.cc'], LIBS=['livejournalxx'], LIBPATH='.')
+ecrulist = env.Program('ecru-list', ['src/ecru-list.cc'], LIBS=['livejournalxx'], LIBPATH='.')
+
+env.Install('/usr/local/lib', livejournalxx)
+env.Install('/usr/local/bin', [ecruconfig, ecrupost, ecrulist])
+env.Alias('install', '/usr/local/lib')
+env.Alias('install', '/usr/local/bin')
