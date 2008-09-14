@@ -1,6 +1,8 @@
 #include <ctime>
+#include <clocale>
 #include <iostream>
 
+#include <glibmm.h>
 #include <libiqxmlrpc/libiqxmlrpc.h>
 #include <libiqxmlrpc/client.h>
 #include <libiqxmlrpc/http_client.h>
@@ -12,7 +14,18 @@ using namespace iqxmlrpc;
 
 LiveJournal::LiveJournal()
 {
+	setlocale(LC_ALL, "");
+
 	this->config = new Config("/home/novel/.ecru/default.conf");
+	this->client = new Client<Http_client_connection>(iqnet::Inet_addr("livejournal.com", 80), "/interface/xmlrpc");
+
+	username = this->config->queryConfigProperty("config.account.login");
+	passwd = this->config->queryConfigProperty("config.account.password");
+}
+
+std::string LiveJournal::decodeTextValue(iqxmlrpc::Value *value)
+{
+//	std::cout << "decodeTextValue, type = " << value.is_string() << endl;
 }
 
 string LiveJournal::postEvent(string event, string subject)
@@ -73,4 +86,44 @@ void LiveJournal::login() {
 	param_list[0].insert("hpassword", passwd);
 
 	Response response = client.execute("LJ.XMLRPC.login", param_list);
+}
+
+void LiveJournal::list(int count) {
+	login();
+
+	Param_list param_list;
+	param_list.push_back(Struct());
+	param_list[0].insert("username", username);
+        param_list[0].insert("hpassword", passwd);	
+	param_list[0].insert("ver", "1");
+	param_list[0].insert("truncate", "40");
+	param_list[0].insert("noprops", "1");
+	param_list[0].insert("selecttype", "lastn");
+	param_list[0].insert("howmany", count);
+	param_list[0].insert("lineendings", "unix");
+
+	Response response = client->execute("LJ.XMLRPC.getevents", param_list);
+
+	Struct st = response.value().the_struct();
+	
+	Array events = st["events"].the_array();
+
+	for (Array::const_iterator i = events.begin(); i != events.end(); ++i) {
+		Struct event = i->the_struct();
+	/*	cout << "------------" << endl;
+		cout << "itemid = " << event["itemid"].get_int() << endl;
+		cout << "url = " << event["url"].get_string() << endl;
+		cout << "event = " << event["event"].type_name() << endl;
+		cout << "------------" << endl;*/
+
+		if (event["event"].is_string()) {
+			cout << "event = " << event["event"].get_string() << endl;
+		} else if (event["event"].is_binary()) {
+			//cout << event["event"].get_binary().get_data() << endl;
+			string strEvent = event["event"].get_binary().get_data();
+			Glib::ustring uevent(strEvent);
+			
+			cout << Glib::locale_from_utf8(uevent) << endl;
+		}
+	}
 }
