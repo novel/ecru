@@ -6,6 +6,7 @@
 
 #include "LiveJournal.h"
 #include "Event.h"
+#include "ecru.h"
 
 using namespace std;
 
@@ -14,11 +15,14 @@ int main(int argc, char** argv)
 	int ch;
 	int count = 20;
 
-	while ((ch = getopt(argc, argv, "c:")) != -1) {
+	while ((ch = getopt(argc, argv, "c:v")) != -1) {
 		switch (ch) {
 			case 'c':
 				count = atoi(optarg);
 				break;
+			case 'v':
+				ecru::version();
+				exit(0);
 			default:
 				exit(0);
 		}
