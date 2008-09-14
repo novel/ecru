@@ -9,6 +9,8 @@ class Event {
 		std::string subject;
 		std::string event;
 		std::string url;
+		std::string eventTime;
+
 	public:
 		int getItemId() { return this->itemid; };
 		void setItemId(int itemId) { this->itemid = itemId; };
@@ -21,6 +23,9 @@ class Event {
 
 		std::string getURL() { return this->url; };
 		void setURL(std::string url) { this->url = url; };
+
+		std::string getEventTime() { return this->eventTime; };
+		void setEventTime(std::string eventTime) { this->eventTime = eventTime; };
 };
 
 #endif // __EVENT_H

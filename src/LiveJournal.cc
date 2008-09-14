@@ -117,11 +117,14 @@ vector<Event*> LiveJournal::list(int count) {
 		Event *ljevent = new Event();
 		ljevent->setItemId(event["itemid"].get_int());
 		ljevent->setURL(event["url"].get_string());
+		ljevent->setEventTime(event["eventtime"].get_string());
 	/*	cout << "------------" << endl;
 		cout << "itemid = " << event["itemid"].get_int() << endl;
 		cout << "url = " << event["url"].get_string() << endl;
 		cout << "event = " << event["event"].type_name() << endl;
 		cout << "------------" << endl;*/
+
+		//cout << "eventtime = " << event["eventtime"].get_string() << endl;
 
 		if (event["event"].is_string()) {
 			ljevent->setEvent(event["event"].get_string());

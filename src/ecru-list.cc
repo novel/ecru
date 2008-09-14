@@ -36,6 +36,7 @@ int main(int argc, char** argv)
 		cout.width(40);
 		cout.setf(ios::left);
 		cout << events[i]->getEvent();
+		cout << "| " << events[i]->getEventTime();
 		cout << endl;
 	}
 }
