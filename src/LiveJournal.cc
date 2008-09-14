@@ -1,6 +1,7 @@
 #include <ctime>
 #include <clocale>
 #include <iostream>
+#include <vector>
 
 #include <glibmm.h>
 #include <libiqxmlrpc/libiqxmlrpc.h>
@@ -9,6 +10,7 @@
 
 #include "LiveJournal.h"
 #include "Config.h"
+#include "Event.h"
 
 using namespace iqxmlrpc;
 
@@ -88,7 +90,7 @@ void LiveJournal::login() {
 	Response response = client.execute("LJ.XMLRPC.login", param_list);
 }
 
-void LiveJournal::list(int count) {
+vector<Event*> LiveJournal::list(int count) {
 	login();
 
 	Param_list param_list;
@@ -108,8 +110,13 @@ void LiveJournal::list(int count) {
 	
 	Array events = st["events"].the_array();
 
+	vector<Event*> events_vector;
 	for (Array::const_iterator i = events.begin(); i != events.end(); ++i) {
 		Struct event = i->the_struct();
+
+		Event *ljevent = new Event();
+		ljevent->setItemId(event["itemid"].get_int());
+		ljevent->setURL(event["url"].get_string());
 	/*	cout << "------------" << endl;
 		cout << "itemid = " << event["itemid"].get_int() << endl;
 		cout << "url = " << event["url"].get_string() << endl;
@@ -117,13 +124,22 @@ void LiveJournal::list(int count) {
 		cout << "------------" << endl;*/
 
 		if (event["event"].is_string()) {
-			cout << "event = " << event["event"].get_string() << endl;
+			ljevent->setEvent(event["event"].get_string());
 		} else if (event["event"].is_binary()) {
-			//cout << event["event"].get_binary().get_data() << endl;
 			string strEvent = event["event"].get_binary().get_data();
 			Glib::ustring uevent(strEvent);
-			
-			cout << Glib::locale_from_utf8(uevent) << endl;
+		
+			try {	
+				ljevent->setEvent(Glib::locale_from_utf8(uevent));
+			} catch (Glib::ConvertError ex) {
+				//cout << Glib::convert_with_fallback(strEvent, "koi8-r", "utf-8") << endl;
+				//ljevent->setEvent(ljevent->getURL());
+				ljevent->setEvent("cannot convert text to your locale");
+			}
 		}
+
+		events_vector.push_back(ljevent);
 	}
+
+	return events_vector;
 }

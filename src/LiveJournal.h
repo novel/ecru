@@ -6,13 +6,14 @@
 #include <libiqxmlrpc/http_client.h>
 
 #include "Config.h"
+#include "Event.h"
 
 class LiveJournal {
 	public:
 		LiveJournal();
 		string postEvent(string event, string subject);
 
-		void list(int count = 20);
+		vector<Event*> list(int count = 20);
 
 	private:
 		Config *config;
