@@ -1,8 +1,10 @@
-#include "PostInfo.h"
-
 #include <string>
 #include <sstream>
 #include <iostream>
+
+#include <glibmm.h>
+
+#include "PostInfo.h"
 
 using namespace std;
 
@@ -51,7 +53,8 @@ void PostInfo::parseText(string text)
 
 				//cout << "[" << strip_string(propName) << "] = [" << strip_string(propValue) << "]" << endl;
 		
-				this->properties[strip_string(propName)] =  strip_string(propValue);
+				this->properties[strip_string(propName)] = (string)Glib::
+						locale_to_utf8(strip_string(propValue));
 
 				propertiesSpottedCount++;
 			} else if (linesRead == 0) {
@@ -67,5 +70,5 @@ void PostInfo::parseText(string text)
 		linesRead++;
 	}
 
-	this->text = postText;
+	this->text = (string)Glib::locale_to_utf8(postText);
 }
