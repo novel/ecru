@@ -16,6 +16,7 @@ env.Append(LIBS=['livejournalxx', 'ecru'], LIBPATH='.')
 ecruconfig = env.Program('ecru-config', ['src/ecru-config.cc']) #, LIBS='livejournalxx', LIBPATH='.')
 ecrupost = env.Program('ecru-post', ['src/ecru-post.cc']) #, LIBS='livejournalxx', LIBPATH='.')
 ecrulist = env.Program('ecru-list', ['src/ecru-list.cc']) #, LIBS='livejournalxx', LIBPATH='.')
+ecruinfo = env.Program('ecru-info', ['src/ecru-info.cc'])
 
 #env.Install('/usr/local/lib', livejournalxx)
 #env.Install('/usr/local/bin', [ecruconfig, ecrupost, ecrulist])

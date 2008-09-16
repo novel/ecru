@@ -146,3 +146,11 @@ vector<Event*> LiveJournal::list(int count) {
 
 	return events_vector;
 }
+
+Event* getEvent(int itemId) 
+{
+	Event *event = new Event();
+
+	return event;
+
+}

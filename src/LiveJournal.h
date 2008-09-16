@@ -13,7 +13,11 @@ class LiveJournal {
 		LiveJournal();
 		string postEvent(string event, string subject);
 
+		// returns latest count entries (events)
 		vector<Event*> list(int count = 20);
+
+		// returns event with the given itemid
+		Event* getEvent(int itemId);
 
 	private:
 		Config *config;
