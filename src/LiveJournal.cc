@@ -25,9 +25,9 @@ LiveJournal::LiveJournal()
 	passwd = this->config->queryConfigProperty("config.account.password");
 }
 
-std::string LiveJournal::decodeTextValue(iqxmlrpc::Value *value)
+std::string LiveJournal::decodeTextValue(const iqxmlrpc::Value *value)
 {
-//	std::cout << "decodeTextValue, type = " << value.is_string() << endl;
+	std::cout << "decodeTextValue, type = " << value->is_string() << endl;
 }
 
 string LiveJournal::postEvent(string event, string subject)
@@ -147,8 +147,61 @@ vector<Event*> LiveJournal::list(int count) {
 	return events_vector;
 }
 
-Event* getEvent(int itemId) 
+Event* LiveJournal::getEvent(int itemId) 
 {
+	login();
+
+        Param_list param_list;
+        param_list.push_back(Struct());
+        param_list[0].insert("username", username);
+        param_list[0].insert("hpassword", passwd);
+        param_list[0].insert("ver", "1");
+	param_list[0].insert("itemid", itemId);
+        param_list[0].insert("selecttype", "one");
+        param_list[0].insert("lineendings", "unix");
+
+        Response response = client->execute("LJ.XMLRPC.getevents", param_list);
+
+        Struct st = response.value().the_struct();
+
+        Array events = st["events"].the_array();
+
+        vector<Event*> events_vector;
+
+	for (Array::const_iterator i = events.begin(); i != events.end(); ++i) {
+		Struct eventStruct = i->the_struct();
+		std::cout << eventStruct["url"].get_string() << std::endl;
+
+		if (eventStruct.has_field("props") == true) {
+			// process properties
+			Struct propsStruct = eventStruct["props"].the_struct();
+			
+			for (Struct::const_iterator j = propsStruct.begin(); j != propsStruct.end(); j++) {
+				//std::cout << "here we go" << std::endl;
+				//decodeTextValue(new Value(j->second));
+				iqxmlrpc::Value *myvalue = new iqxmlrpc::Value(j->second);
+				decodeTextValue(myvalue);
+				//std::cout << j->first << ": " << j->second->type_name() << std::endl;
+				std::string propvalue;
+				
+				if (j->second->is_binary()) {
+					propvalue = j->second->get_binary().get_data();
+				} else if (j->second->is_string()) {
+					propvalue = j->second->get_string();
+				} else {
+					propvalue = "";
+				}
+				
+				std::string key = j->first; //.get_string();
+
+				std::cout << key << " : " << propvalue << std::endl;
+
+			}
+		}
+	}
+
+//	std::cout << events.size() << std::endl;
+
 	Event *event = new Event();
 
 	return event;

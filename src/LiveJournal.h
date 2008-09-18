@@ -28,7 +28,7 @@ class LiveJournal {
 		string passwd;
 
 		void login();
-		std::string decodeTextValue(iqxmlrpc::Value *value);
+		std::string decodeTextValue(const iqxmlrpc::Value *value);
 };
 
 #endif // __LIVEJOURNAL_H

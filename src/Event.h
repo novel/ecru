@@ -2,6 +2,9 @@
 #define __EVENT_H
 
 #include <string>
+#include <map>
+
+using namespace std;
 
 class Event {
 	private:
@@ -10,6 +13,8 @@ class Event {
 		std::string event;
 		std::string url;
 		std::string eventTime;
+
+		map<string, string> properties;
 
 	public:
 		int getItemId() { return this->itemid; };
@@ -26,6 +31,9 @@ class Event {
 
 		std::string getEventTime() { return this->eventTime; };
 		void setEventTime(std::string eventTime) { this->eventTime = eventTime; };
+
+		std::string getProperty(std::string key) { return this->properties[key]; };
+		void setProperty(std::string key, std::string value) { this->properties[key] = value; };
 };
 
 #endif // __EVENT_H

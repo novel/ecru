@@ -14,11 +14,15 @@ int main(int argc, char** argv)
 {
 	int ch;
 	int count = 20;
+	bool showURL = false;
 
-	while ((ch = getopt(argc, argv, "c:v")) != -1) {
+	while ((ch = getopt(argc, argv, "c:vs")) != -1) {
 		switch (ch) {
 			case 'c':
 				count = atoi(optarg);
+				break;
+			case 's':
+				showURL = true;
 				break;
 			case 'v':
 				ecru::version();
@@ -41,6 +45,8 @@ int main(int argc, char** argv)
 		cout.setf(ios::left);
 		cout << events[i]->getEvent();
 		cout << "| " << events[i]->getEventTime();
+		if (showURL)
+			cout << " | " << events[i]->getURL();
 		cout << endl;
 	}
 }
