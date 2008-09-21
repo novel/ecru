@@ -19,7 +19,7 @@ LiveJournal::LiveJournal()
 {
 	setlocale(LC_ALL, "");
 	
-	this->config = new Config(std::string(getenv("HOME")) + "/.ecru/default.conf");
+	this->config = new Config(); //std::string(getenv("HOME")) + "/.ecru/default.conf");
 	this->client = new Client<Http_client_connection>(iqnet::Inet_addr("livejournal.com", 80), "/interface/xmlrpc");
 
 	username = this->config->queryConfigProperty("config.account.login");

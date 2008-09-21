@@ -2,6 +2,7 @@
 #define __CONFIG_H
 
 #include <string>
+#include <vector>
 
 #include <libconfig.h++>
 //#include <libxml++/libxml++.h>
@@ -11,11 +12,18 @@ using namespace std;
 class Config {
 	private:
 		libconfig::Config *config;
+		string configDirectory;
 	public:
-		Config(string filename);
-		~Config();
+		Config();
+//		~Config();
 
 		string queryConfigProperty(string property);
+
+		string getCurrentConfigFilename();
+		void setCurrentConfigFilename(string filename);
+
+		vector<string> listConfigFiles();
+
 };
 
 #endif // __CONFIG_H
