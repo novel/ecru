@@ -14,7 +14,7 @@ void listConfigProfiles() {
 
 	vector<string> configFiles = config->listConfigFiles();
 
-	for (int i = 0; i < configFiles.size(); i++) {
+	for (unsigned int i = 0; i < configFiles.size(); i++) {
 		//cout.width(2);
 		if (configFiles[i] == currentConfigFilename) {
 			cout << "* ";

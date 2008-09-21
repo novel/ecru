@@ -4,13 +4,16 @@
 
 #include "LiveJournal.h"
 #include "PostInfo.h"
+#include "Template.h"
 
 using namespace std;
 
-string invoke_editor()
+string invoke_editor(string templateName)
 {
 	string editor;
 	string result;
+
+	Template *templ = new Template();
 
 	try {
 		editor = getenv("EDITOR");
@@ -24,7 +27,19 @@ string invoke_editor()
 
 	tmp_filename = tmpnam(NULL);
 
-	cout << tmp_filename << endl;
+	string templateContent = templ->getTemplate(templateName);
+
+	cout << templateContent << endl;
+
+	delete templ;
+
+	if (templateContent.length() > 0) {
+		ofstream fout(tmp_filename);
+		fout << templateContent;
+		fout.close();
+	}
+
+//	cout << tmp_filename << endl;
 
 	int ret = system( (editor + " " + tmp_filename).c_str() );
 
@@ -42,15 +57,30 @@ string invoke_editor()
 		//cout << line << endl;
 		result += line + "\n";
 	}
+	
+	mystream.close();
 
 	return result;
 }
 
-int main()
+int main(int argc, char** argv)
 {
+	int ch;
+	string templateName = "default";
+
+	while ((ch = getopt(argc, argv, "t:")) != -1) {
+		switch (ch) {
+			case 't':
+				templateName = string(optarg);
+				break;
+			default:
+				exit(1);
+		}
+	}
 
 	LiveJournal *livejournal = new LiveJournal();
 	string subject;
+
 //	string postUrl = livejournal->postEvent("body", "subject");
 
 //	cout << postUrl << endl;
@@ -58,7 +88,7 @@ int main()
 	//cout << invoke_editor() << endl;
 	//exit(0);
 	//string text = "subject: hello world\n\nsome text goes there\nanother line\nmore line\nthe end\n";
-	string text = invoke_editor();
+	string text = invoke_editor(templateName);
 
 	PostInfo *postInfo = new PostInfo(text);
 	//cout << postInfo->getText() << endl;

@@ -36,7 +36,7 @@ void PostInfo::parseText(string text)
 {
 	stringstream stream(text);
 	string line;
-	int emptyStringsSpottedCount = 0;
+	//int emptyStringsSpottedCount = 0;
 	int linesRead = 0;
 	int propertiesSpottedCount = 0;
 	string postText;

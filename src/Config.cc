@@ -15,7 +15,8 @@ Config::Config()
 	this->configDirectory = std::string(getenv("HOME")) + "/.ecru/";
 
 	//string filename = std::string(getenv("HOME")) + "/.ecru/default.conf";
-	string filename = this->configDirectory + "default.conf";
+	//string filename = this->configDirectory + "default.conf";
+	string filename = getCurrentConfigFilename();
 
 	libconfig::Config *cfg = new libconfig::Config();
 	try {	
@@ -65,7 +66,7 @@ vector<string> Config::listConfigFiles()
 	vector<string> files = ecru::listDirectory(this->configDirectory);
 	vector<string> configFiles;
 
-	for (int i = 0; i < files.size(); i++) {
+	for (unsigned int i = 0; i < files.size(); i++) {
 		string filename = files[i];
 
 		if (filename.length() > 5) {

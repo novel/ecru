@@ -39,7 +39,7 @@ int main(int argc, char** argv)
 
 	vector<Event*> events = livejournal->list(count);
 	
-	for (int i = 0; i < events.size(); i++) {
+	for (unsigned int i = 0; i < events.size(); i++) {
 		cout << events[i]->getItemId() << " | ";
 		cout.width(40);
 		cout.setf(ios::left);
