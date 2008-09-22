@@ -28,7 +28,23 @@ LiveJournal::LiveJournal()
 
 std::string LiveJournal::decodeTextValue(const iqxmlrpc::Value *value)
 {
-	std::cout << "decodeTextValue, type = " << value->is_string() << endl;
+	//std::cout << "decodeTextValue, type = " << value->is_string() << endl;
+	std::string result;
+
+	if (value->is_string()) {
+		result = value->get_string();
+	} else if (value->is_binary()) {
+		string raw = value->get_binary().get_data();
+		Glib::ustring unicodeString(raw);
+
+		try {
+			result = (std::string)(Glib::locale_from_utf8(unicodeString));
+		} catch (Glib::ConvertError ex) {
+			result =  "error encoding string";
+		}
+	}
+
+	return result;
 }
 
 string LiveJournal::postEvent(string event, string subject)
@@ -127,6 +143,8 @@ vector<Event*> LiveJournal::list(int count) {
 
 		//cout << "eventtime = " << event["eventtime"].get_string() << endl;
 
+		ljevent->setEvent(decodeTextValue(&event["event"]));
+#if 0		
 		if (event["event"].is_string()) {
 			ljevent->setEvent(event["event"].get_string());
 		} else if (event["event"].is_binary()) {
@@ -141,6 +159,7 @@ vector<Event*> LiveJournal::list(int count) {
 				ljevent->setEvent("cannot convert text to your locale");
 			}
 		}
+#endif
 
 		events_vector.push_back(ljevent);
 	}
@@ -169,42 +188,34 @@ Event* LiveJournal::getEvent(int itemId)
 
         vector<Event*> events_vector;
 
-	for (Array::const_iterator i = events.begin(); i != events.end(); ++i) {
-		Struct eventStruct = i->the_struct();
+	Event *ljevent = new Event();
+	//for (Array::const_iterator i = events.begin(); i != events.end(); ++i) {
+		Value i = events[0];
+		Struct eventStruct = i.the_struct();
 		std::cout << eventStruct["url"].get_string() << std::endl;
+		//std::cout << decodeTextValue((Value)eventStruct["url"]) << std::endl;
+
 
 		if (eventStruct.has_field("props") == true) {
 			// process properties
 			Struct propsStruct = eventStruct["props"].the_struct();
 			
 			for (Struct::const_iterator j = propsStruct.begin(); j != propsStruct.end(); j++) {
-				//std::cout << "here we go" << std::endl;
-				//decodeTextValue(new Value(j->second));
-				iqxmlrpc::Value *myvalue = new iqxmlrpc::Value(j->second);
-				decodeTextValue(myvalue);
-				//std::cout << j->first << ": " << j->second->type_name() << std::endl;
-				std::string propvalue;
-				
-				if (j->second->is_binary()) {
-					propvalue = j->second->get_binary().get_data();
-				} else if (j->second->is_string()) {
-					propvalue = j->second->get_string();
-				} else {
-					propvalue = "";
-				}
-				
-				std::string key = j->first; //.get_string();
+				std::string key = j->first;
 
-				std::cout << key << " : " << propvalue << std::endl;
+				std::cout << key << " : " << decodeTextValue(j->second) << std::endl;
 
 			}
 		}
-	}
+
+		ljevent->setEvent(decodeTextValue(&eventStruct["event"]));
+		std::cout << ljevent->getEvent() << endl;
+//	}
 
 //	std::cout << events.size() << std::endl;
 
-	Event *event = new Event();
+//	Event *event = new Event();
 
-	return event;
+	return ljevent;
 
 }
