@@ -34,6 +34,8 @@ class Event {
 
 		std::string getProperty(std::string key) { return this->properties[key]; };
 		void setProperty(std::string key, std::string value) { this->properties[key] = value; };
+
+		map<string, string> getProperties() { return this->properties; };
 };
 
 #endif // __EVENT_H

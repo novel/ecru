@@ -26,9 +26,12 @@ LiveJournal::LiveJournal()
 	passwd = this->config->queryConfigProperty("config.account.password");
 }
 
+/**
+  *  Decodes textual objects from xmlrpc value to std::string
+  *  @return std::string in current locale encoding
+  */
 std::string LiveJournal::decodeTextValue(const iqxmlrpc::Value *value)
 {
-	//std::cout << "decodeTextValue, type = " << value->is_string() << endl;
 	std::string result;
 
 	if (value->is_string()) {
@@ -134,7 +137,7 @@ vector<Event*> LiveJournal::list(int count) {
 		Event *ljevent = new Event();
 		ljevent->setItemId(event["itemid"].get_int());
 		ljevent->setURL(event["url"].get_string());
-		ljevent->setEventTime(event["eventtime"].get_string());
+		ljevent->setEventTime(event["eventtime"].get_string());		
 	/*	cout << "------------" << endl;
 		cout << "itemid = " << event["itemid"].get_int() << endl;
 		cout << "url = " << event["url"].get_string() << endl;
@@ -143,6 +146,7 @@ vector<Event*> LiveJournal::list(int count) {
 
 		//cout << "eventtime = " << event["eventtime"].get_string() << endl;
 
+		ljevent->setSubject(decodeTextValue(&event["subject"]));
 		ljevent->setEvent(decodeTextValue(&event["event"]));
 #if 0		
 		if (event["event"].is_string()) {
@@ -192,7 +196,8 @@ Event* LiveJournal::getEvent(int itemId)
 	//for (Array::const_iterator i = events.begin(); i != events.end(); ++i) {
 		Value i = events[0];
 		Struct eventStruct = i.the_struct();
-		std::cout << eventStruct["url"].get_string() << std::endl;
+
+//		std::cout << eventStruct["url"].get_string() << std::endl;
 		//std::cout << decodeTextValue((Value)eventStruct["url"]) << std::endl;
 
 
@@ -203,13 +208,15 @@ Event* LiveJournal::getEvent(int itemId)
 			for (Struct::const_iterator j = propsStruct.begin(); j != propsStruct.end(); j++) {
 				std::string key = j->first;
 
-				std::cout << key << " : " << decodeTextValue(j->second) << std::endl;
+				//std::cout << key << " : " << decodeTextValue(j->second) << std::endl;
 
+				ljevent->setProperty(j->first, decodeTextValue(j->second));
 			}
 		}
 
+		ljevent->setEventTime(eventStruct["eventtime"]);
 		ljevent->setEvent(decodeTextValue(&eventStruct["event"]));
-		std::cout << ljevent->getEvent() << endl;
+		//std::cout << ljevent->getEvent() << endl;
 //	}
 
 //	std::cout << events.size() << std::endl;
