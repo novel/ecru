@@ -12,7 +12,7 @@ env.StaticLibrary('livejournalxx', ['src/LiveJournal.cc',
             'src/PostInfo.cc',
             'src/Event.cc'])
 
-env.Append(LIBS=['livejournalxx', 'ecru'], LIBPATH='.', CCFLAGS='-Wall')
+env.Append(LIBS=['livejournalxx', 'ecru'], LIBPATH='.', CCFLAGS='-Wall -Werror')
 ecruconfig = env.Program('ecru-config', ['src/ecru-config.cc']) #, LIBS='livejournalxx', LIBPATH='.')
 ecrupost = env.Program('ecru-post', ['src/ecru-post.cc']) #, LIBS='livejournalxx', LIBPATH='.')
 ecrulist = env.Program('ecru-list', ['src/ecru-list.cc']) #, LIBS='livejournalxx', LIBPATH='.')
