@@ -5,17 +5,9 @@
 #include <glibmm.h>
 
 #include "PostInfo.h"
+#include "ecru.h"
 
 using namespace std;
-
-// yeah, that's really fucked up 
-string strip_string(std::string const& str)
-{
-	std::string::size_type const first = str.find_first_not_of(' ');
-	return (first == std::string::npos)
-		? std::string()
-		: str.substr(first, str.find_last_not_of(' ')-first+1);
-}
 
 PostInfo::PostInfo(string text)
 {
@@ -53,8 +45,8 @@ void PostInfo::parseText(string text)
 
 				//cout << "[" << strip_string(propName) << "] = [" << strip_string(propValue) << "]" << endl;
 		
-				this->properties[strip_string(propName)] = (string)Glib::
-						locale_to_utf8(strip_string(propValue));
+				this->properties[ecru::stripString(propName)] = (string)Glib::
+						locale_to_utf8(ecru::stripString(propValue));
 
 				propertiesSpottedCount++;
 			} else if (linesRead == 0) {

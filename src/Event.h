@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <iostream>
 
 using namespace std;
 
@@ -16,7 +17,12 @@ class Event {
 
 		map<string, string> properties;
 
-	public:
+		void parseText(const string text);
+
+	public:		
+		Event() {};
+		Event(const string text);
+
 		int getItemId() { return this->itemid; };
 		void setItemId(int itemId) { this->itemid = itemId; };
 		
@@ -36,6 +42,8 @@ class Event {
 		void setProperty(std::string key, std::string value) { this->properties[key] = value; };
 
 		map<string, string> getProperties() { return this->properties; };
+
+		friend ostream& operator <<(ostream &os, const Event &event);
 };
 
 #endif // __EVENT_H

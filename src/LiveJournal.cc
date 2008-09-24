@@ -22,8 +22,8 @@ LiveJournal::LiveJournal()
 	this->config = new Config(); //std::string(getenv("HOME")) + "/.ecru/default.conf");
 	this->client = new Client<Http_client_connection>(iqnet::Inet_addr("livejournal.com", 80), "/interface/xmlrpc");
 
-	username = this->config->queryConfigProperty("config.account.login");
-	passwd = this->config->queryConfigProperty("config.account.password");
+	this->username = this->config->queryConfigProperty("config.account.login");
+	this->passwd = this->config->queryConfigProperty("config.account.password");
 }
 
 /**
@@ -50,6 +50,61 @@ std::string LiveJournal::decodeTextValue(const iqxmlrpc::Value *value)
 	return result;
 }
 
+iqxmlrpc::Value LiveJournal::convertPropertiesToStruct(map<string, string> properties)
+{
+	Struct propertiesStruct;
+
+	for (map<string, string>::iterator i = properties.begin(); i != properties.end(); ++i) {
+		propertiesStruct.insert(i->first, i->second);
+	}
+
+	return propertiesStruct;
+}
+
+string LiveJournal::postEvent(Event *ljevent)
+{
+	login();
+
+	Client<Http_client_connection> client(iqnet::Inet_addr("livejournal.com", 80), "/interface/xmlrpc");
+	Param_list param_list;
+	param_list.push_back(Struct());
+
+	unsigned int allowmask = 0;
+	allowmask |= 1<<0;
+
+
+
+	param_list[0].insert("username", this->username);
+	param_list[0].insert("hpassword", this->passwd);
+	param_list[0].insert("ver", "1");
+	param_list[0].insert("event", ljevent->getEvent());
+	param_list[0].insert("subject", ljevent->getSubject());
+	param_list[0].insert("security", "usemask");
+	param_list[0].insert("allowmask", (int)allowmask);
+	param_list[0].insert("lineendings", "unix");
+	param_list[0].insert("props", this->convertPropertiesToStruct(ljevent->getProperties()));
+
+	/* time stuff */
+	time_t rawtime;
+        struct tm * timeinfo;
+
+	time ( &rawtime );
+	timeinfo = localtime ( &rawtime );
+
+	param_list[0].insert("year", timeinfo->tm_year + 1900);
+	param_list[0].insert("mon", timeinfo->tm_mon + 1);
+	param_list[0].insert("day", timeinfo->tm_mday);
+	param_list[0].insert("hour", timeinfo->tm_hour);
+	param_list[0].insert("min", timeinfo->tm_min);
+	
+	Response response = client.execute("LJ.XMLRPC.postevent", param_list);
+
+	Struct st = response.value().the_struct();
+	
+	return st["url"].get_string();
+}
+
+// deprecated
 string LiveJournal::postEvent(string event, string subject)
 {
 	login();

@@ -13,6 +13,8 @@ namespace ecru {
 	void version();
 
 	vector<string> listDirectory(string path);
+
+	string stripString(std::string const& str);
 };
 
 #endif // __ECRU_H

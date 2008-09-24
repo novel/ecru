@@ -3,7 +3,7 @@
 #include <cstdlib>
 
 #include "LiveJournal.h"
-#include "PostInfo.h"
+#include "Event.h"
 #include "Template.h"
 
 using namespace std;
@@ -90,6 +90,22 @@ int main(int argc, char** argv)
 	//string text = "subject: hello world\n\nsome text goes there\nanother line\nmore line\nthe end\n";
 	string text = invoke_editor(templateName);
 
+	Event *event = new Event(text);
+
+#if 0
+	map<string, string> properties = event->getProperties();
+
+	cout << "subject = [" << event->getSubject() << "]" << endl;
+
+	for (map<string, string>::iterator i = properties.begin(); i != properties.end(); ++i) {
+		if (i->first != "revnum" && i->first != "revtime")
+		                        cout << i->first << " : " << i->second << endl;
+	}
+	cout << "body:" << endl << event->getEvent() << endl;
+	cout << "---body" << endl;
+#endif
+
+#if 0
 	PostInfo *postInfo = new PostInfo(text);
 	//cout << postInfo->getText() << endl;
 	if (postInfo->hasProperty("subject") == true) {
@@ -99,6 +115,8 @@ int main(int argc, char** argv)
 		exit(0);
 	}		
 
-	string postUrl = livejournal->postEvent(postInfo->getText(), subject);
+
+#endif	
+	string postUrl = livejournal->postEvent(event);
 	cout << "Location of your post is: " << postUrl << endl;
 }
