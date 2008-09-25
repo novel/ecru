@@ -8,7 +8,8 @@ using namespace std;
 
 namespace ecru {
 	const std::string appname = "ecru";
-	const std::string appversion = "0.1";
+	const std::string appversion = "0.1.0";
+	const std::string clientversion = "CLI-ecru/" + appversion;
 
 	void version();
 

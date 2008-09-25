@@ -7,10 +7,23 @@
 
 using namespace std;
 
+Event::Event()
+{
+	this->setUpDefaultProps();
+}
+
 Event::Event(const string text)
 {
+	this->setUpDefaultProps();
+
 	this->parseText(text);
-}	
+}
+
+void Event::setUpDefaultProps()
+{
+	// set come default values
+	this->security = "public";
+}
 
 void Event::parseText(const string text)
 {
@@ -31,9 +44,21 @@ void Event::parseText(const string text)
 				string propValue = ecru::stripString(line.substr(index + 1));
 
 
-				//cout << "[" << strip_string(propName) << "] = [" << strip_string(propValue) << "]" << endl;
+				// subject is actually not a property
 				if (propName == "subject") {
 					this->subject = (string)Glib::locale_to_utf8(propValue);
+				} else if (propName == "security") {
+					// "security" is actually a property, but
+					// requires some special handling
+					string decodedPropValue = (string)Glib::locale_to_utf8(propValue);
+
+					if ((decodedPropValue != "public") or
+						(decodedPropValue != "friendsonly") or 
+							(decodedPropValue != "private")) {
+						this->security = "public";
+					} else {
+						this->security = decodedPropValue;
+					}
 				} else {
 					this->properties[ecru::stripString(propName)] = (string)Glib::
 						locale_to_utf8(propValue);

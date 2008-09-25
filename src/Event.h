@@ -11,6 +11,7 @@ class Event {
 	private:
 		int itemid;
 		std::string subject;
+		std::string security;
 		std::string event;
 		std::string url;
 		std::string eventTime;
@@ -19,8 +20,9 @@ class Event {
 
 		void parseText(const string text);
 
+		void setUpDefaultProps();
 	public:		
-		Event() {};
+		Event();
 		Event(const string text);
 
 		int getItemId() { return this->itemid; };
@@ -28,6 +30,9 @@ class Event {
 		
 		std::string getSubject() { return this->subject; };
 		void setSubject(std::string subject) { this->subject = subject; };
+
+		std::string getSecurity() { return this->security; };
+		void setSecurity(std::string security) { this->security = security; };
 
 		std::string getEvent() { return this->event; };
 		void setEvent(std::string event) { this->event = event; };

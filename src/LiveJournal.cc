@@ -12,6 +12,7 @@
 #include "LiveJournal.h"
 #include "Config.h"
 #include "Event.h"
+#include "ecru.h"
 
 using namespace iqxmlrpc;
 
@@ -69,20 +70,27 @@ string LiveJournal::postEvent(Event *ljevent)
 	Param_list param_list;
 	param_list.push_back(Struct());
 
-	unsigned int allowmask = 0;
-	allowmask |= 1<<0;
-
-
-
 	param_list[0].insert("username", this->username);
 	param_list[0].insert("hpassword", this->passwd);
 	param_list[0].insert("ver", "1");
 	param_list[0].insert("event", ljevent->getEvent());
 	param_list[0].insert("subject", ljevent->getSubject());
-	param_list[0].insert("security", "usemask");
-	param_list[0].insert("allowmask", (int)allowmask);
 	param_list[0].insert("lineendings", "unix");
 	param_list[0].insert("props", this->convertPropertiesToStruct(ljevent->getProperties()));
+
+	string security = ljevent->getSecurity();
+
+	if (security == "public") {
+		param_list[0].insert("security", "public");
+	} else if (security == "friendsonly") {
+		unsigned int allowmask = 0;
+		allowmask |= 1<<0;
+
+		param_list[0].insert("security", "usemask");
+		param_list[0].insert("allowmask", (int)allowmask);
+	} else /* assumed private */ {
+		param_list[0].insert("security", "private");
+	}
 
 	/* time stuff */
 	time_t rawtime;
@@ -160,6 +168,7 @@ void LiveJournal::login() {
 	param_list.push_back(Struct());
 	param_list[0].insert("username", login);
 	param_list[0].insert("hpassword", passwd);
+	param_list[0].insert("clientversion", ecru::clientversion);	
 
 	Response response = client.execute("LJ.XMLRPC.login", param_list);
 }
@@ -200,7 +209,9 @@ vector<Event*> LiveJournal::list(int count) {
 
 		//cout << "eventtime = " << event["eventtime"].get_string() << endl;
 
-		ljevent->setSubject(decodeTextValue(&event["subject"]));
+		// we don't need subjects here
+		//ljevent->setSubject(decodeTextValue(&event["subject"]));
+		//ljevent->setSubject("hey");
 		ljevent->setEvent(decodeTextValue(&event["event"]));
 #if 0		
 		if (event["event"].is_string()) {
