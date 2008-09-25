@@ -9,7 +9,6 @@ env.StaticLibrary('ecru', ['src/ecru.cc', 'src/Template.cc'])
 
 env.StaticLibrary('livejournalxx', ['src/LiveJournal.cc', 
             'src/Config.cc', 
-            'src/PostInfo.cc',
             'src/Event.cc'])
 
 env.Append(LIBS=['livejournalxx', 'ecru'], LIBPATH='.', CCFLAGS='-Wall -Werror')
