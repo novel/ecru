@@ -3,8 +3,29 @@
 #include <vector>
 
 #include "Config.h"
+#include "ecru.h"
 
 using namespace std;
+
+void usage()
+{
+
+	cerr << "usage: ecru-config variable_path" << endl;
+	cerr << "usage: ecru-config [-l|-s path]" << endl;
+	cerr << "usage: ecru-config [-v|-h]" << endl;
+	exit(1);
+}
+
+void help()
+{
+
+	cout << "ecru-config" << endl << endl;
+	cout << "\t-l -- lists current config profiles marking the active one with * (asteriks)";
+	cout << endl;
+	cout << "\t-s filename.conf -- switches current config profile to filename.conf" << endl;
+	cout << "\t-v -- shows client version" << endl;
+	exit(0);
+}
 
 void listConfigProfiles() {
 	//cout << "hello world" << endl;
@@ -39,8 +60,10 @@ void setCurrentConfigFilename(string filename)
 int main(int argc, char** argv) {
 	int ch;
 
-	while ((ch = getopt(argc, argv, "ls:")) != -1) {
+	while ((ch = getopt(argc, argv, "hls:v")) != -1) {
 		switch (ch) {
+			case 'h':
+				help();
 			case 'l':
 				listConfigProfiles();
 				exit(0);
@@ -49,9 +72,11 @@ int main(int argc, char** argv) {
 				setCurrentConfigFilename(optarg);
 				exit(0);	
 				break;
+			case 'v':
+				ecru::version();
+				exit(0);
 			default:
-				cout << "oops" << endl;
-				exit(1);
+				usage();
 			}
 	}
 
