@@ -16,6 +16,7 @@ ecruconfig = env.Program('ecru-config', ['src/ecru-config.cc']) #, LIBS='livejou
 ecrupost = env.Program('ecru-post', ['src/ecru-post.cc']) #, LIBS='livejournalxx', LIBPATH='.')
 ecrulist = env.Program('ecru-list', ['src/ecru-list.cc']) #, LIBS='livejournalxx', LIBPATH='.')
 ecruinfo = env.Program('ecru-info', ['src/ecru-info.cc'])
+ecrudelete = env.Program('ecru-delete', ['src/ecru-delete.cc'])
 
 #env.Install('/usr/local/lib', livejournalxx)
 #env.Install('/usr/local/bin', [ecruconfig, ecrupost, ecrulist])

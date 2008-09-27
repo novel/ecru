@@ -291,3 +291,21 @@ Event* LiveJournal::getEvent(int itemId)
 	return ljevent;
 
 }
+
+void LiveJournal::deleteEvent(int itemId)
+{
+	login();
+
+        Param_list param_list;
+        param_list.push_back(Struct());
+        param_list[0].insert("username", username);
+        param_list[0].insert("hpassword", passwd);
+        param_list[0].insert("ver", "1");
+	param_list[0].insert("itemid", itemId);
+        param_list[0].insert("lineendings", "unix");
+	param_list[0].insert("event", "");
+	param_list[0].insert("subject", "");
+
+        Response response = client->execute("LJ.XMLRPC.editevent", param_list);
+//        Struct st = response.value().the_struct();
+}

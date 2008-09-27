@@ -22,6 +22,11 @@ class LiveJournal {
 		// returns event with the given itemid
 		Event* getEvent(int itemId);
 
+		/**
+		  * Delete event
+		  */
+		void deleteEvent(int itemId);
+
 	private:
 		Config *config;
 
