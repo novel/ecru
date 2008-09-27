@@ -1,10 +1,10 @@
+#include <fstream>
+#include <iostream>
+
 #include <sys/types.h>
 #include <dirent.h>
 
-
 #include "ecru.h"
-
-#include <iostream>
 
 void ecru::version()
 {
@@ -49,3 +49,28 @@ string ecru::stripString(std::string const& str)
 			: str.substr(first, str.find_last_not_of(' ')-first+1);
 }
 
+/**
+  * Read either file or stdin if filename is "-" to string
+  * @return file content as a string
+  */
+string ecru::readFile(std::string const& filename)
+{
+	string line;
+	string result;
+
+	std::istream *stream;
+
+	if (filename != "-") {
+		std::ifstream inputStream;
+		inputStream.open(filename.c_str());
+		stream = &inputStream;
+	} else {
+		stream = &std::cin;
+	}
+	
+	while (getline(*stream, line)) {
+		result += line + "\n";
+	}
+
+	return result;
+}

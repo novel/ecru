@@ -1,12 +1,23 @@
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
+#include <map>
 
 #include "LiveJournal.h"
 #include "Event.h"
 #include "Template.h"
+#include "ecru.h"
 
 using namespace std;
+
+void help()
+{
+
+	cout << "ecru-post" << endl << endl;
+	cout << "\t-s subject -- specify post subject" << endl;
+	cout << "\t-t template -- specify template name to use" << endl;
+	cout << "\t-f filename -- specifiy file to read text from, use '-' for stdin" << endl;
+}
 
 string invoke_editor(string templateName)
 {
@@ -67,9 +78,34 @@ int main(int argc, char** argv)
 {
 	int ch;
 	string templateName = "default";
+	string filename = "";
+	string subject;
+	string propertyPair;
+	size_t index;
+	map<string, string> properties;
 
-	while ((ch = getopt(argc, argv, "t:")) != -1) {
+	while ((ch = getopt(argc, argv, "D:f:hs:t:")) != -1) {
 		switch (ch) {
+			case 'D':
+				propertyPair = string(optarg);
+				index = propertyPair.find_first_of("=");
+				if (index == string::npos) {
+					cerr << "Wrong property pair (" << propertyPair;
+					cerr << "): should look like: key=value" << endl;
+				} else {			
+					properties[propertyPair.substr(0, index)] = \
+						propertyPair.substr(index+1, propertyPair.length());
+				}
+				break;				
+			case 'f':
+				filename = optarg;
+				break;
+			case 'h':
+				help();
+				exit(0);
+			case 's':
+				subject = string(optarg);
+				break;
 			case 't':
 				templateName = string(optarg);
 				break;
@@ -78,45 +114,32 @@ int main(int argc, char** argv)
 		}
 	}
 
+	argc -= optind;
+	argv += optind;
+
+	string text;
+
+	if (filename != "") {
+		text = ecru::readFile(filename);	
+	} else {
+		text = invoke_editor(templateName);
+	}
+
 	LiveJournal *livejournal = new LiveJournal();
-	string subject;
-
-//	string postUrl = livejournal->postEvent("body", "subject");
-
-//	cout << postUrl << endl;
-//#endif
-	//cout << invoke_editor() << endl;
-	//exit(0);
-	//string text = "subject: hello world\n\nsome text goes there\nanother line\nmore line\nthe end\n";
-	string text = invoke_editor(templateName);
 
 	Event *event = new Event(text);
 
-#if 0
-	map<string, string> properties = event->getProperties();
-
-	cout << "subject = [" << event->getSubject() << "]" << endl;
-
-	for (map<string, string>::iterator i = properties.begin(); i != properties.end(); ++i) {
-		if (i->first != "revnum" && i->first != "revtime")
-		                        cout << i->first << " : " << i->second << endl;
+	// command line properties doesn't override the ones defined in text 
+	if ((event->getSubject().length() == 0) && (subject.length() > 0)) {
+		event->setSubject(subject);
 	}
-	cout << "body:" << endl << event->getEvent() << endl;
-	cout << "---body" << endl;
-#endif
 
-#if 0
-	PostInfo *postInfo = new PostInfo(text);
-	//cout << postInfo->getText() << endl;
-	if (postInfo->hasProperty("subject") == true) {
-		subject = postInfo->getProperty("subject");
-	} else {
-		cout << "subject is missing" << endl;
-		exit(0);
-	}		
+	for (map<string,string>::iterator i = properties.begin(); i != properties.end(); i++) {
+		if (event->hasProperty(i->first) == false) {
+			event->setProperty(i->first, i->second);
+		}
+	}
 
-
-#endif	
 	string postUrl = livejournal->postEvent(event);
 	cout << "Location of your post is: " << postUrl << endl;
 }
