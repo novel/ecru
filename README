@@ -1,0 +1,23 @@
+                             ECRU
+
+Ecru is a command-line client for LiveJournal. Name 'ecru' has no
+special meaning etc, however, it's somehow related to the French
+verb 'ecrire' which means 'to write'.
+
+Ecru hasn't got an own homepage yet and the source code is stored
+on github: http://github.com/novel/ecru/tree.
+
+Build system is based on scons (http://www.scons.org/), most likely
+any Linux distro has it and it should be available through BSD ports
+as well. To build ecru, you have to execute 'scons' in the project's
+root directory. However, you'll have to install some dependencies:
+
+  * libconfig++ (part of libconfig) 
+      (http://www.hyperrealm.com/libconfig/libconfig.html)
+  * glibmm
+  * libiqxmlrpc (http://libiqxmlrpc.sourceforge.net/)
+
+Alas, not all Linux distros include libconfig and libiqxmlrpc packages
+so I provided links to these projects so you could compile it yourself.
+
+-- Roman Bogorodskiy <bogorodskiy@gmail.com>
