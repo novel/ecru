@@ -43,7 +43,7 @@ int main(int argc, char** argv)
 		cout << events[i]->getItemId() << " | ";
 		cout.width(40);
 		cout.setf(ios::left);
-		cout << events[i]->getEvent();
+		cout << ecru::stripNewLines(events[i]->getEvent());
 		cout << "| " << events[i]->getEventTime();
 		if (showURL)
 			cout << " | " << events[i]->getURL();

@@ -23,18 +23,17 @@ vector<string> ecru::listDirectory(string path)
 	struct dirent *dirp;
 	vector<string> files;
 
-	if((dp  = opendir(path.c_str())) == NULL) {
-		         //   cout << "Error(" << errno << ") opening " << dir << endl;
-			 cerr << "error opening dir: " << path << endl;
-			      // return errno;
-				        }
-	 while ((dirp = readdir(dp)) != NULL) {
+	if ((dp = opendir(path.c_str())) == NULL) {
+		cerr << "error opening dir: " << path << endl;
+	}
+
+	while ((dirp = readdir(dp)) != NULL) {
 		files.push_back(string(dirp->d_name));
 	}
 
-	 closedir(dp);
+	closedir(dp);
 
-	 return files;
+	return files;
 }
 
 /**
@@ -47,6 +46,17 @@ string ecru::stripString(std::string const& str)
 	return (first == std::string::npos)
 			? std::string()
 			: str.substr(first, str.find_last_not_of(' ')-first+1);
+}
+
+string ecru::stripNewLines(std::string const& str)
+{
+	string result = str;
+	size_t index;
+	while ( (index = result.find("\n")) != string::npos) {
+		result.replace(index, 1, " ");
+	}
+
+	return result;
 }
 
 /**

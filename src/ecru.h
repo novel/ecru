@@ -17,6 +17,8 @@ namespace ecru {
 
 	string stripString(std::string const& str);
 
+	string stripNewLines(std::string const& str);
+
 	string readFile(std::string const& filename);
 };
 
