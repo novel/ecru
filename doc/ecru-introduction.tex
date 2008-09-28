@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage{verbatim} 
+\title{Introduction to Ecru}
+\author{Roman Bogorodsky (bogorodskiy@gmail.com)}
+\date{}
+\begin{document}
+   \maketitle
+   \section{About}
+    Ecru is a command-line LiveJournal client which pretends to be flexible
+    and follow Unix way.
+ 
+    You might consult README file in the Ecru distribution in order to get
+    information about dependencies and build process.
+
+    \section{Getting started}
+      \subsection{Configuration}
+       Ecru comes with a tool {\tt ecru-config} which is responsible for
+       configuration related issues. To generate initial configuration schema,
+       execute {\tt ecru-config } with {\tt -g } argument: { \tt ecru-config -g }. It
+       will prompt for your livejournal username and md5 hash of the password.
+       On Linux systems you can generate md5 hash of your password using
+       {\tt md5sum} utility and on FreeBSD you might use {\tt md5 -s}. So, in order
+       to avoid interactivity, you might do the following:
+  
+	\begin{verbatim}
+		ecru-config -g -u username -p `md5 -s mypass`
+	\end{verbatim}
+	
+	Consider that it might be insecure to leave your plain text password in the
+	shell history.
+
+	A new directory {\tt ecru.new} will be created by {\tt ecru-config}. Just 
+	{\tt cp -r } it to {\tt ~/.ecru} and you're done with it.
+       \subsection{Posting}
+	A tool called {\tt ecru-post } is responsible for posting new entries. It can be used
+	either in interactive or command line mode. Let's start with the interactive mode first.
+
+	If you type {\tt ecru-post } without any argument it will load {\tt \$EDITOR }. As soon as you
+	finish typing, save the file and quit from the editor, the post will be submitted and
+	{\tt ecru-post } will return an URL of the new post.
+
+	To add subject to the post, you should add a 'subject' keyword to the top of the text, like:
+	\begin{verbatim}
+		subject: hey, this is a subject
+
+		the text of a post goes here
+		one more line just to make it look more real
+    	\end{verbatim}
+
+	You might add other keywords like current mood and stuff, for example:
+	
+	\begin{verbatim}
+		subject: another post
+		current_mood: good
+		current_music: The Beatles - Let It Be
+	
+		Some very kewlz post, YA RLY.
+	\end{verbatim}
+
+	Please note a blank line separating headers part and the body, it's required. It could be skipped
+	only if your post has no headers at all.
+
+	As it was mentioned before, it's possible to post in non-interactive mode. It could be done this way:
+	
+	\begin{verbatim}
+	echo "body of the post" | ecru-post -f - \
+		-s "subject of the post" \
+		-Dcurrent_mood=good -Dcurrent_music="`music.sh`"
+	\end{verbatim}
+
+	It will post a new entry without invoking editor. As you might have noticed, {\tt -s } is used to set the subject
+	and {\tt -D} is used to set properties. 
+
+	Note that you can use {\tt -s} and {\tt -D} in an interactive mode as well, however command line arguments has
+	lower priority than the ones defined in the text. E.g. if you executed {\tt ecru-post -s "some subject"} and
+	didn't provide 'subject:' keyword in the text, the subject of you post will be "some subject". However, if
+	you execute {\tt ecru-post -s "some subject"} and add "subject:" keyword to the text, like "subject: cooler
+	subject", the subject of you post will be "cooler subject". The same is valid for {\tt -D} as well.
+
+	\subsection{Templates}
+	Before {\tt ecru-post} invokes the editor it loads the contents of the {\tt ~/.ecru/templates/default} file. 
+	That's where 'subject:' line comes from with the default configuration. You might alter 
+	{\tt ~/.ecru/templates/default} template for your needs. You might create new templates and place it into
+	{\tt ~/.ecru/template/} directory and pass their name to {\tt -t} arg for {\tt ecru-post}. For example,
+	if you created {\tt ~/.ecru/template/mytemplate} you call {\tt ecru-post -t mytemplate} to use it.
+
+	\subsection{Post operations: list, edit, delete}
+	A tool {\tt ecru-list} could be used to last of recent posts. In first column it shows item id (important!),
+	then few first chars from the post body and post time. If you pass {\tt -s} argument, it will show post url
+	as well.
+
+	You can delete posts using {\tt ecru-delete} posts, e.g. if you want to delete posts with ids 10 and 11 you
+	do {\tt ecru-delete 10 11}. As a reminder: you can look up an id in the first column of {\tt ecru-list} 
+	output.
+
+	To edit post with id 10 you need to execute {\tt ecru-edit 10}. 
+
+	To obtain an info about a post with id 10 you need to execute {\tt ecru-info 10}. By the way, there's a special
+	id "-1" which always refers to the latest post in your journal. For example: {\tt ecru-info -- -1} will
+	show an info about the latest post. Note "--" - it's used to getopt didn't think "-1" is an argument.
+     \section{Advanced topics}
+       \subsection{Configuration profiles}
+	Ecru supports having several config profiles (which could be useful if you have few accounts). If you want to
+	add a new profile, just create a new configuration file in {\tt ~/.ecru/}. Its name should end with
+	{\tt .conf}. 
+	Now if you run {\tt ecru-config -l} you should see a list of configurations, in our example it should be
+	'default.conf' marked with asterisk and the configuration file you just created. Asterisk (*) marks
+	currently active configuration profile. To change current configuration file you should do (assuming
+	you named file example.conf): 
+	\begin{verbatim}
+		ecru-config -s example.conf
+	\end{verbatim}
+
+	Now {\tt ecru-config -l} should show example.conf marked with asterisk.
+\end{document}
