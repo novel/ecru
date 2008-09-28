@@ -37,7 +37,7 @@ string invoke_editor(string templateName)
 	
 	char *tmp_filename;
 
-	tmp_filename = tmpnam(NULL);
+	tmp_filename = ecru::generateTmpFile();
 
 	string templateContent = templ->getTemplate(templateName);
 

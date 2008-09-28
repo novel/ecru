@@ -31,7 +31,7 @@ string invoke_editor(Event *ljevent)
 
 	char *tmpFilename;
 
-	tmpFilename = tmpnam(NULL);
+	tmpFilename = ecru::generateTmpFile();
 
 	ofstream fout(tmpFilename);
 	ljevent->dump(fout);
