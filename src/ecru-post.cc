@@ -72,6 +72,10 @@ string invoke_editor(string templateName)
 	
 	mystream.close();
 
+	if (remove(tmp_filename) != 0) {
+		perror(tmp_filename);
+	}
+
 	return result;
 }
 

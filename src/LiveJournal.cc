@@ -329,8 +329,8 @@ string LiveJournal::editEvent(Event *event)
 	param_list[0].insert("lineendings", "unix");
 	param_list[0].insert("props", this->convertPropertiesToStruct(event->getProperties()));
 
-#if 0	
-	string security = ljevent->getSecurity();
+
+	string security = event->getSecurity();
 
 	if (security == "public") {
 		param_list[0].insert("security", "public");
@@ -343,7 +343,6 @@ string LiveJournal::editEvent(Event *event)
 	} else /* assumed private */ {
 		param_list[0].insert("security", "private");
 	}
-#endif
 
 #if 0
 	/* time stuff */

@@ -52,8 +52,8 @@ void Event::parseText(const string text)
 					// requires some special handling
 					string decodedPropValue = (string)Glib::locale_to_utf8(propValue);
 
-					if ((decodedPropValue != "public") or
-						(decodedPropValue != "friendsonly") or 
+					if ((decodedPropValue != "public") &&
+						(decodedPropValue != "friendsonly") &&
 							(decodedPropValue != "private")) {
 						this->security = "public";
 					} else {
