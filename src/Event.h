@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <fstream>
 #include <iostream>
 
 using namespace std;
@@ -51,6 +52,8 @@ class Event {
 		map<string, string> getProperties() { return this->properties; };
 
 		friend ostream& operator <<(ostream &os, const Event &event);
+
+		void dump(std::ostream &stream);
 };
 
 #endif // __EVENT_H

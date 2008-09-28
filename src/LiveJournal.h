@@ -27,6 +27,11 @@ class LiveJournal {
 		  */
 		void deleteEvent(int itemId);
 
+		/**
+		  * Update event
+		  */
+		string editEvent(Event *event);
+
 	private:
 		Config *config;
 

@@ -14,6 +14,7 @@ void help()
 {
 
 	cout << "ecru-post" << endl << endl;
+	cout << "\t-D prop=value -- add property/value pair to the post" << endl;
 	cout << "\t-s subject -- specify post subject" << endl;
 	cout << "\t-t template -- specify template name to use" << endl;
 	cout << "\t-f filename -- specifiy file to read text from, use '-' for stdin" << endl;
@@ -40,7 +41,7 @@ string invoke_editor(string templateName)
 
 	string templateContent = templ->getTemplate(templateName);
 
-	cout << templateContent << endl;
+	//cout << templateContent << endl;
 
 	delete templ;
 

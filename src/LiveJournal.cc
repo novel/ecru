@@ -279,6 +279,9 @@ Event* LiveJournal::getEvent(int itemId)
 			}
 		}
 
+		if (eventStruct.has_field("subject") == true) {
+			ljevent->setSubject(eventStruct["subject"]);
+		}
 		ljevent->setEventTime(eventStruct["eventtime"]);
 		ljevent->setEvent(decodeTextValue(&eventStruct["event"]));
 		//std::cout << ljevent->getEvent() << endl;
@@ -307,5 +310,59 @@ void LiveJournal::deleteEvent(int itemId)
 	param_list[0].insert("subject", "");
 
         Response response = client->execute("LJ.XMLRPC.editevent", param_list);
-//        Struct st = response.value().the_struct();
+}
+
+string LiveJournal::editEvent(Event *event)
+{		
+	login();
+
+	Client<Http_client_connection> client(iqnet::Inet_addr("livejournal.com", 80), "/interface/xmlrpc");
+	Param_list param_list;
+	param_list.push_back(Struct());
+
+	param_list[0].insert("username", this->username);
+	param_list[0].insert("hpassword", this->passwd);
+	param_list[0].insert("ver", "1");
+	param_list[0].insert("itemid", event->getItemId());		
+	param_list[0].insert("event", event->getEvent());
+	param_list[0].insert("subject", event->getSubject());
+	param_list[0].insert("lineendings", "unix");
+	param_list[0].insert("props", this->convertPropertiesToStruct(event->getProperties()));
+
+#if 0	
+	string security = ljevent->getSecurity();
+
+	if (security == "public") {
+		param_list[0].insert("security", "public");
+	} else if (security == "friendsonly") {
+		unsigned int allowmask = 0;
+		allowmask |= 1<<0;
+
+		param_list[0].insert("security", "usemask");
+		param_list[0].insert("allowmask", (int)allowmask);
+	} else /* assumed private */ {
+		param_list[0].insert("security", "private");
+	}
+#endif
+
+#if 0
+	/* time stuff */
+	time_t rawtime;
+        struct tm * timeinfo;
+
+	time ( &rawtime );
+	timeinfo = localtime ( &rawtime );
+
+	param_list[0].insert("year", timeinfo->tm_year + 1900);
+	param_list[0].insert("mon", timeinfo->tm_mon + 1);
+	param_list[0].insert("day", timeinfo->tm_mday);
+	param_list[0].insert("hour", timeinfo->tm_hour);
+	param_list[0].insert("min", timeinfo->tm_min);
+#endif
+
+	Response response = client.execute("LJ.XMLRPC.editevent", param_list);
+
+	Struct st = response.value().the_struct();
+	
+	return st["url"].get_string();
 }

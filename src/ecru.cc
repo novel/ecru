@@ -61,16 +61,24 @@ string ecru::readFile(std::string const& filename)
 	std::istream *stream;
 
 	if (filename != "-") {
-		std::ifstream inputStream;
-		inputStream.open(filename.c_str());
+		std::cout << "here " << filename  << std::endl;
+		std::ifstream inputStream(filename.c_str());
+
+		if (!inputStream) {
+			std::cerr << "omg" << std::endl;
+		}
+
 		stream = &inputStream;
 	} else {
 		stream = &std::cin;
 	}
 	
 	while (getline(*stream, line)) {
+		std::cout << "yo" << std::endl;
 		result += line + "\n";
 	}
+
+	std::cout << stream->bad() << stream->fail() << stream->good() <<stream->eof() << std::endl;
 
 	return result;
 }
