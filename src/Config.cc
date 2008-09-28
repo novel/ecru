@@ -5,6 +5,7 @@
 #include <fstream>
 
 #include <libgen.h>
+#include <sys/stat.h>
 
 #include <libconfig.h++>
 
@@ -78,4 +79,53 @@ vector<string> Config::listConfigFiles()
 	}
 
 	return configFiles;
+}
+
+string Config::generate(string username, string hpassword)
+{
+	string configDir = "ecru.new";
+	string templateDir = configDir + "/templates";
+
+	/* TODO split into separate function somewhere in ecru:: */
+	if ( (mkdir(configDir.c_str(), S_IRWXU))  != 0) {
+		perror(configDir.c_str());
+		exit(0);
+	}
+
+	if ( (mkdir(templateDir.c_str(), S_IRWXU)) != 0) {
+		perror(templateDir.c_str());
+		exit(0);
+	}
+
+
+	libconfig::Config *cfg = new libconfig::Config();
+
+	libconfig::Setting& setting = cfg->getRoot();
+
+	//cout << setting.isGroup() << endl;
+	setting.add("config", libconfig::Setting::TypeGroup);
+
+	libconfig::Setting& configSetting = cfg->lookup("config");
+	configSetting.add("account", libconfig::Setting::TypeGroup);
+
+	libconfig::Setting& accountSetting = cfg->lookup("config.account");
+	accountSetting.add("login", libconfig::Setting::TypeString);	
+	accountSetting.add("password", libconfig::Setting::TypeString);
+
+	accountSetting["login"] = username;
+	accountSetting["password"] = hpassword;
+	
+	cfg->writeFile( (configDir + "/default.conf").c_str() );
+	
+	ofstream outputStream;
+
+	outputStream.open( (configDir + "/current").c_str() );
+	outputStream << "default.conf" << endl;
+	outputStream.close();
+
+	outputStream.open( (templateDir + "/default").c_str() );
+	outputStream << "subject: " << endl << endl;
+	outputStream.close();
+
+	return configDir;
 }

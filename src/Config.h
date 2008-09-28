@@ -23,7 +23,8 @@ class Config {
 		void setCurrentConfigFilename(string filename);
 
 		vector<string> listConfigFiles();
-
+		
+		static string generate(string username, string hpassword);
 };
 
 #endif // __CONFIG_H
