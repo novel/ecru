@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage{verbatim} 
 \title{Introduction to Ecru}
-\author{Roman Bogorodsky (bogorodskiy@gmail.com)}
+\author{Roman Bogorodskiy (bogorodskiy@gmail.com)}
 \date{}
 \begin{document}
    \maketitle
@@ -30,7 +30,7 @@
 	shell history.
 
 	A new directory {\tt ecru.new} will be created by {\tt ecru-config}. Just 
-	{\tt cp -r } it to {\tt ~/.ecru} and you're done with it.
+	{\tt cp -r } it to {\tt \verb+~+/.ecru} and you're done with it.
        \subsection{Posting}
 	A tool called {\tt ecru-post } is responsible for posting new entries. It can be used
 	either in interactive or command line mode. Let's start with the interactive mode first.
@@ -77,12 +77,17 @@
 	you execute {\tt ecru-post -s "some subject"} and add "subject:" keyword to the text, like "subject: cooler
 	subject", the subject of you post will be "cooler subject". The same is valid for {\tt -D} as well.
 
+	\subsection{About security property}
+	Property "security" has three possible values: "public" (default), "friendsonly" and "private". So in order
+	to make a post visible only to friends, "security" property should be set to "friendsonly", i.e. a header
+	"security: friendsonly" should be added or {\tt -Dsecurity=friendsonly} option passed.
+
 	\subsection{Templates}
-	Before {\tt ecru-post} invokes the editor it loads the contents of the {\tt ~/.ecru/templates/default} file. 
+	Before {\tt ecru-post} invokes the editor it loads the contents of the {\tt \verb+~+/.ecru/templates/default} file. 
 	That's where 'subject:' line comes from with the default configuration. You might alter 
-	{\tt ~/.ecru/templates/default} template for your needs. You might create new templates and place it into
-	{\tt ~/.ecru/template/} directory and pass their name to {\tt -t} arg for {\tt ecru-post}. For example,
-	if you created {\tt ~/.ecru/template/mytemplate} you call {\tt ecru-post -t mytemplate} to use it.
+	{\tt \verb+~+/.ecru/templates/default} template for your needs. You might create new templates and place it into
+	{\tt \verb+~+/.ecru/template/} directory and pass their name to {\tt -t} arg for {\tt ecru-post}. For example,
+	if you created {\tt \verb+~+/.ecru/template/mytemplate} you call {\tt ecru-post -t mytemplate} to use it.
 
 	\subsection{Post operations: list, edit, delete}
 	A tool {\tt ecru-list} could be used to last of recent posts. In first column it shows item id (important!),
@@ -101,7 +106,7 @@
      \section{Advanced topics}
        \subsection{Configuration profiles}
 	Ecru supports having several config profiles (which could be useful if you have few accounts). If you want to
-	add a new profile, just create a new configuration file in {\tt ~/.ecru/}. Its name should end with
+	add a new profile, just create a new configuration file in {\tt \verb+~+/.ecru/}. Its name should end with
 	{\tt .conf}. 
 	Now if you run {\tt ecru-config -l} you should see a list of configurations, in our example it should be
 	'default.conf' marked with asterisk and the configuration file you just created. Asterisk (*) marks
