@@ -1,23 +1,47 @@
 # vim:ft=python
 
-env = Environment()
+# Setup build dir
+VariantDir('build', 'src', duplicate=0)
+
+# Add --prefix option
+AddOption('--prefix',
+    dest='prefix',
+    type='string',
+    nargs=1,
+    action='store',
+    metavar='DIR',
+    help='installation prefix',
+    default='/usr/local')
+
+env = Environment(PREFIX = GetOption('prefix'))
+
 env.ParseConfig("pkg-config libconfig++ --cflags --libs")
 env.ParseConfig("pkg-config libiqxmlrpc --cflags --libs")
 env.ParseConfig("pkg-config glibmm-2.4 --cflags --libs")
 
-env.StaticLibrary('ecru', ['src/ecru.cc', 'src/Template.cc'])
+#############################################
+### libraries ###############################
+#############################################
 
-env.StaticLibrary('livejournalxx', ['src/LiveJournal.cc', 
-            'src/Config.cc', 
-            'src/Event.cc'])
+libecru = SharedLibrary('ecru', ['build/ecru.cc', 'build/Template.cc', 'build/Hook.cc'])
 
-env.Append(LIBS=['livejournalxx', 'ecru'], LIBPATH='.', CCFLAGS='-Wall -Werror')
-ecruconfig = env.Program('ecru-config', ['src/ecru-config.cc'])
-ecrupost = env.Program('ecru-post', ['src/ecru-post.cc'])
-ecrulist = env.Program('ecru-list', ['src/ecru-list.cc'])
-ecruinfo = env.Program('ecru-info', ['src/ecru-info.cc'])
-ecrudelete = env.Program('ecru-delete', ['src/ecru-delete.cc'])
-ecruedit = env.Program('ecru-edit', ['src/ecru-edit.cc'])
+liblivejournalxx = env.SharedLibrary('livejournalxx', ['build/LiveJournal.cc', 
+            'build/Config.cc', 
+            'build/Event.cc'])
+
+env.Append(LIBS=['ecru'], LIBPATH='.', CCFLAGS='-Wall -Werror')
+
+#############################################
+### apps ####################################
+#############################################
+
+ecruconfig = env.Program('ecru-config', ['build/ecru-config.cc'], LIBS=['livejournalxx', 'ecru'], LIBPATH='.')
+ecrupost = env.Program('ecru-post', ['build/ecru-post.cc'], LIBS=['livejournalxx', 'ecru'], LIBPATH='.')
+ecrulist = env.Program('ecru-list', ['build/ecru-list.cc'], LIBS=['livejournalxx', 'ecru'], LIBPATH='.')
+ecruinfo = env.Program('ecru-info', ['build/ecru-info.cc'], LIBS=['livejournalxx', 'ecru'], LIBPATH='.')
+ecrudelete = env.Program('ecru-delete', ['build/ecru-delete.cc'], LIBS=['livejournalxx', 'ecru'], LIBPATH='.')
+ecruedit = env.Program('ecru-edit', ['build/ecru-edit.cc'], LIBS=['livejournalxx', 'ecru'], LIBPATH='.')
+
 
 ### UnitTest ###
 # Build one or more test runners.
@@ -27,7 +51,13 @@ ecruedit = env.Program('ecru-edit', ['src/ecru-edit.cc'])
 # Simply required.  Without it, 'test' is never considered out of date.
 #AlwaysBuild(test_alias)
 
-#env.Install('/usr/local/lib', livejournalxx)
-#env.Install('/usr/local/bin', [ecruconfig, ecrupost, ecrulist])
-#env.Alias('install', '/usr/local/lib')
-#env.Alias('install', '/usr/local/bin')
+#env.AddPostAction('foobar', program, program[0].abspath)
+
+#############################################
+### installation ############################
+#############################################
+lib_install = env.Install('$PREFIX/lib/', [libecru, liblivejournalxx])
+app_install = env.Install('$PREFIX/bin/', [ecruconfig, ecrupost, ecrulist,
+        ecruinfo, ecrudelete, ecruedit])
+
+env.Alias('install', [lib_install, app_install])
