@@ -20,6 +20,8 @@ namespace ecru {
 	string stripNewLines(std::string const& str);
 
 	string readFile(std::string const& filename);
+
+	char* generateTmpFile();
 };
 
 #endif // __ECRU_H

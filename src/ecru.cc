@@ -1,8 +1,10 @@
 #include <fstream>
 #include <iostream>
+#include <cstdlib>
 
 #include <sys/types.h>
 #include <dirent.h>
+#include <unistd.h>
 
 #include "ecru.h"
 
@@ -91,4 +93,13 @@ string ecru::readFile(std::string const& filename)
 	std::cout << stream->bad() << stream->fail() << stream->good() <<stream->eof() << std::endl;
 
 	return result;
+}
+
+char* ecru::generateTmpFile()
+{
+	char *templ = strdup("/tmp/ecruXXXXXXXX");
+	
+	mkstemp(templ);
+
+	return templ;
 }
