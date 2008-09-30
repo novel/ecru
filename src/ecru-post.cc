@@ -18,6 +18,7 @@ void help()
 	cout << "\t-s subject -- specify post subject" << endl;
 	cout << "\t-t template -- specify template name to use" << endl;
 	cout << "\t-f filename -- specifiy file to read text from, use '-' for stdin" << endl;
+	cout << "\t-v -- show version end exit" << endl;
 }
 
 string invoke_editor(string templateName)
@@ -89,7 +90,7 @@ int main(int argc, char** argv)
 	size_t index;
 	map<string, string> properties;
 
-	while ((ch = getopt(argc, argv, "D:f:hs:t:")) != -1) {
+	while ((ch = getopt(argc, argv, "D:f:hs:t:v")) != -1) {
 		switch (ch) {
 			case 'D':
 				propertyPair = string(optarg);
@@ -114,6 +115,9 @@ int main(int argc, char** argv)
 			case 't':
 				templateName = string(optarg);
 				break;
+			case 'v':
+				ecru::version();
+				exit(0);
 			default:
 				exit(1);
 		}
