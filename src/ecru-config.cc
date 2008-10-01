@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <vector>
 
+#include "Hook.h"
 #include "Config.h"
 #include "ecru.h"
 
@@ -13,18 +14,8 @@ void usage()
 	cerr << "usage: ecru-config variable_path" << endl;
 	cerr << "usage: ecru-config [-l|-s path]" << endl;
 	cerr << "usage: ecru-config [-v|-h]" << endl;
+	cerr << "usage: ecru-config -h [pre|post]" << endl;
 	exit(1);
-}
-
-void help()
-{
-
-	cout << "ecru-config" << endl << endl;
-	cout << "\t-l -- lists current config profiles marking the active one with * (asteriks)";
-	cout << endl;
-	cout << "\t-s filename.conf -- switches current config profile to filename.conf" << endl;
-	cout << "\t-v -- shows client version" << endl;
-	exit(0);
 }
 
 void listConfigProfiles() {
@@ -62,14 +53,21 @@ int main(int argc, char** argv) {
 	bool generate = false;
 	string username;
 	string hpassword;
+	string hookType;
 
-	while ((ch = getopt(argc, argv, "ghlp:s:u:v")) != -1) {
+	while ((ch = getopt(argc, argv, "gh:lp:s:u:v")) != -1) {
 		switch (ch) {
 			case 'g':
 				generate = true;
 				break;
 			case 'h':
-				help();
+				hookType = string(optarg);
+				if ((hookType != "post") && 
+						(hookType != "pre")) {
+					usage();
+					exit(1);
+				}
+				break;
 			case 'l':
 				listConfigProfiles();
 				exit(0);
@@ -97,10 +95,7 @@ int main(int argc, char** argv) {
 	
 	Config *config = new Config();
 
-	if (generate == false) {
-		cout << config->queryConfigProperty(argv[1]) << endl;
-		return 0;
-	} else {
+	if (generate == true) {
 		cout << "Generating ecru configuration..." << endl;
 		if (username.length() == 0) {
 			cout << "Enter username: ";
@@ -116,6 +111,23 @@ int main(int argc, char** argv) {
 
 		cout << "Config file placed to: " << configPath << endl;
 		cout << "To install it, type: cp -r " << configPath << " ~/.ecru" << endl;
+	} else if (hookType.length() > 0) {
+		Hook *hook = new Hook();
+		vector<string> hooks;
+
+		if (hookType == "pre") {
+			hooks = hook->getPreHooks();
+		} else {
+			hooks = hook->getPostHooks();
+		}
+
+		for (unsigned int i = 0; i < hooks.size(); i++) {
+			cout << hooks[i] << endl;
+		}
+	} else {
+		cout << config->queryConfigProperty(argv[1]) << endl;
 	}
+
+	return 0;
 }
 

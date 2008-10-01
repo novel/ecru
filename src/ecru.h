@@ -21,7 +21,21 @@ namespace ecru {
 
 	string readFile(std::string const& filename);
 
+	/**
+	  * Creates a temporary file
+	  * @return path of the temporary file
+	  */
 	char* generateTmpFile();
-};
+
+	/**
+	  * Returns path of the config difectory
+	  */
+	string getConfigDirectory();
+
+	/**
+	  * Check if file at the given path is executable
+	  */
+	bool isExecutable(string path);
+}
 
 #endif // __ECRU_H

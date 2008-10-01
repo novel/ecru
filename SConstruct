@@ -42,7 +42,6 @@ ecruinfo = env.Program('ecru-info', ['build/ecru-info.cc'], LIBS=['livejournalxx
 ecrudelete = env.Program('ecru-delete', ['build/ecru-delete.cc'], LIBS=['livejournalxx', 'ecru'], LIBPATH='.')
 ecruedit = env.Program('ecru-edit', ['build/ecru-edit.cc'], LIBS=['livejournalxx', 'ecru'], LIBPATH='.')
 
-
 ### UnitTest ###
 # Build one or more test runners.
 #program = env.Program('test', 'tests/Test.cc')
@@ -56,6 +55,7 @@ ecruedit = env.Program('ecru-edit', ['build/ecru-edit.cc'], LIBS=['livejournalxx
 #############################################
 ### installation ############################
 #############################################
+
 lib_install = env.Install('$PREFIX/lib/', [libecru, liblivejournalxx])
 app_install = env.Install('$PREFIX/bin/', [ecruconfig, ecrupost, ecrulist,
         ecruinfo, ecrudelete, ecruedit])

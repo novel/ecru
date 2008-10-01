@@ -3,6 +3,7 @@
 #include <cstdlib>
 
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <dirent.h>
 #include <unistd.h>
 
@@ -102,4 +103,20 @@ char* ecru::generateTmpFile()
 	mkstemp(templ);
 
 	return templ;
+}
+
+string ecru::getConfigDirectory()
+{
+	return string(getenv("HOME")) + "/.ecru/"; 
+}
+
+bool ecru::isExecutable(string path)
+{
+	struct stat *st = (struct stat*)malloc(sizeof(struct stat*));
+	stat(path.c_str(), st);
+
+	if (st->st_mode & S_IXUSR) 
+		return true;
+	else 
+		return false;
 }
