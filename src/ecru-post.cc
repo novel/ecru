@@ -138,6 +138,11 @@ int main(int argc, char** argv)
 
 	Event *event = new Event(text);
 
+	if (ecru::stripString(ecru::stripNewLines(event->getEvent())).length() == 0) {
+		cerr << "Missing post body, not submitting." << endl;
+		exit(0);
+	}
+
 	// command line properties doesn't override the ones defined in text 
 	if ((event->getSubject().length() == 0) && (subject.length() > 0)) {
 		event->setSubject(subject);
