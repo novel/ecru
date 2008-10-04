@@ -117,4 +117,26 @@
 	\end{verbatim}
 
 	Now {\tt ecru-config -l} should show example.conf marked with asterisk.
+      \subsection{Hooks}
+        Ecru supports pre- and post- edit hooks. What does it mean? Before and after invoking an editor,
+	ecru checks for executable files in {\tt \verb+~+/.ecru/hooks/pre} for pre- hooks and
+	{\tt \verb+~+/.ecru/hooks/post} for post hooks and executes them, passing filename of with your
+	post as the first argument. So you can do whatever you want with it. Some typical usages as
+	I see them: replace stuff like 'current_music: `get_my_music` with executon result of 
+	{\tt get_my_music} app (check the {\tt hooks} directory of the ecru distrubution to find
+	a script that does at; it's possible to use it for introducing various types of macroses, etc.
+     \section{VIM configuration}
+        If you're using vim, the following tips might be useful to you. Add the following to your {\tt .vimrc}:
+        \begin{verbatim}
+		autocmd BufRead /tmp/ecru* call EcruStuff()
+
+		function EcruStuff()
+		        set wrap linebreak textwidth=70
+		        set ft=html
+		endfunction
+	\end{verbatim}
+
+	First line sets to call {\tt EcruStuff()} function if the filename matches {\tt /tmp/ecru*} template.
+	The {\tt EcruStuff} function sets line length to 70 (makes reading more easy) and sets file type to
+	html to get html syntax hightlighted in posts.
 \end{document}
