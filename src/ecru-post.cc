@@ -4,6 +4,7 @@
 #include <map>
 
 #include "LiveJournal.h"
+#include "Hook.h"
 #include "Event.h"
 #include "Template.h"
 #include "ecru.h"
@@ -52,7 +53,9 @@ string invoke_editor(string templateName)
 		fout.close();
 	}
 
-//	cout << tmp_filename << endl;
+	// time to apply pre-hooks
+	Hook *hook = new Hook();
+	hook->execPreHooks(string(tmp_filename));
 
 	int ret = system( (editor + " " + tmp_filename).c_str() );
 

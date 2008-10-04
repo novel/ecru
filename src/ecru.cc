@@ -4,6 +4,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <dirent.h>
 #include <unistd.h>
 
@@ -119,4 +120,37 @@ bool ecru::isExecutable(string path)
 		return true;
 	else 
 		return false;
+}
+
+int ecru::executeCommand(string command, vector<string> args)
+{
+	pid_t pid = fork();
+
+	if (pid == 0) {
+		//
+		//cout << command << " " << endl;
+		args.insert(args.begin(), command);
+		
+		char **argv = (char **)malloc(sizeof(char *) * args.size());
+
+		for (unsigned int i = 0; i < args.size(); i++) {
+			argv[i] = strdup(args[i].c_str());
+		}
+
+		execv(command.c_str(), argv);
+	} else if (pid < 0) {
+		cerr << "fork failed" << endl;
+		exit(1);
+	}
+
+	int status;
+	wait(&status);
+	/*
+	int childExitStatus;
+
+	pid_t ws = waitpid(pid, &childExitStatus, WNOHANG);
+
+	if (!WIFEXITED(childExitStatus)) {
+		cerr << "Hook " << command << " failed." << endl;
+        }*/
 }

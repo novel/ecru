@@ -120,7 +120,7 @@ int main(int argc, char** argv) {
 		} else {
 			hooks = hook->getPostHooks();
 		}
-
+		
 		for (unsigned int i = 0; i < hooks.size(); i++) {
 			cout << hooks[i] << endl;
 		}

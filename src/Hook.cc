@@ -15,15 +15,15 @@ Hook::Hook()
 	this->postHooksDirectory = configDirectory + "hooks/post/";       			
 }
 
-vector<string> Hook::getPreHooks()
+vector<string> Hook::findExecutableFiles(string directory)
 {
 	vector<string> pathes;
-	vector<string> files = ecru::listDirectory(this->preHooksDirectory);
+	vector<string> files = ecru::listDirectory(directory);
 
 	for (unsigned int i = 0; i < files.size(); i++) {
 		string item = files[i];
 		if ((item != ".") && (item != "..")) {
-			string path = this->preHooksDirectory + files[i];
+			string path = directory + files[i];
 		
 			if (ecru::isExecutable(path)) 
 				pathes.push_back(path);
@@ -33,9 +33,31 @@ vector<string> Hook::getPreHooks()
 	return pathes;
 }
 
+vector<string> Hook::getPreHooks()	
+{
+	return this->findExecutableFiles(this->preHooksDirectory);
+}
+
 vector<string> Hook::getPostHooks()
 {
-	vector<string> result = ecru::listDirectory(this->postHooksDirectory);
+	return this->findExecutableFiles(this->postHooksDirectory);
+}
 
-	return result;
+void Hook::execPreHooks(string filename)
+{
+	this->execHooks(this->getPreHooks(), filename);	
+}
+
+void Hook::execPostHooks(string filename)	
+{
+	this->execHooks(this->getPostHooks(), filename);
+}
+
+void Hook::execHooks(vector<string> hooks, string filename)
+{
+	for (unsigned int i = 0; i < hooks.size(); i++) {
+		vector<string> args;
+		args.push_back(filename);
+		ecru::executeCommand(hooks[i], args);
+	}
 }

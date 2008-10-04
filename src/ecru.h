@@ -34,8 +34,18 @@ namespace ecru {
 
 	/**
 	  * Check if file at the given path is executable
+	  *
+	  * @return true if executable, false otherwise
 	  */
 	bool isExecutable(string path);
+
+	/**
+	  * Execute command
+	  *
+	  * @return exit status of the command
+	  */
+
+	int executeCommand(string command, vector<string> args);
 }
 
 #endif // __ECRU_H
