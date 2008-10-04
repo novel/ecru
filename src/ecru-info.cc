@@ -11,12 +11,16 @@ int main(int argc, char** argv)
 {
 	int ch;
 	int itemId;
+	bool showUsejournals = false;
 
-	while ((ch = getopt(argc, argv, "v")) != -1) {
+	while ((ch = getopt(argc, argv, "vu")) != -1) {
 		switch (ch) {
 			case 'v':
 				ecru::version();
 				exit(0);
+			case 'u':
+				showUsejournals = true;
+				break;
 			default:
 				exit(0);
 		}
@@ -25,41 +29,49 @@ int main(int argc, char** argv)
 	argc -= optind;
 	argv += optind;
 
-	if (argc != 1) {
-		cerr << "Missing itemid" << endl;
-		exit(0);
-	}
-
 	LiveJournal *livejournal = new LiveJournal();
-	Event *ljevent = new Event();
 
-	itemId = atoi(argv[0]);
+	if (showUsejournals == true) {
+		vector<string> journals = livejournal->getUsejournals();
+		for (unsigned int i = 0; i < journals.size(); i++) {
+			cout << journals[i] << endl;
+		}
+	} else {
+		if (argc != 1) {
+			cerr << "Missing itemid" << endl;
+			exit(0);
+		}
 
-	ljevent = livejournal->getEvent(itemId);
+		Event *ljevent = new Event();
 
-	// print out subject
-	string subject = ljevent->getSubject();
+		itemId = atoi(argv[0]);
 
-	if (subject.length() == 0)
-		subject = "(no subject)";
+		ljevent = livejournal->getEvent(itemId);
 
-	cout << "subject : " << subject;
+		// print out subject
+		string subject = ljevent->getSubject();
 
-	// print eventtime
-	cout << " @ " << ljevent->getEventTime() << endl;
+		if (subject.length() == 0)
+			subject = "(no subject)";
 
-	// list keywords
-	map<string, string> properties = ljevent->getProperties();
+		cout << "subject : " << subject;
 
-	for (map<string, string>::iterator i = properties.begin(); i != properties.end(); ++i) {
-		if (i->first != "revnum" && i->first != "revtime")
-			cout << i->first << " : " << i->second << endl;
-	}
+		// print eventtime
+		cout << " @ " << ljevent->getEventTime() << endl;
 
-	cout << endl;
+		// list keywords
+		map<string, string> properties = ljevent->getProperties();
+
+		for (map<string, string>::iterator i = properties.begin(); i != properties.end(); ++i) {
+			if (i->first != "revnum" && i->first != "revtime")
+				cout << i->first << " : " << i->second << endl;
+		}
+
+		cout << endl;
 		
-	// show the event
-	cout << ljevent->getEvent() << endl;
+		// show the event
+		cout << ljevent->getEvent() << endl;
+	}
 
 	return 0;
 }	

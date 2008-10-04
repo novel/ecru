@@ -2,6 +2,8 @@
 #define __LIVEJOURNAL_H
 
 #include <map>
+#include <vector>
+#include <string>
 
 #include <libiqxmlrpc/libiqxmlrpc.h>
 #include <libiqxmlrpc/client.h>
@@ -32,8 +34,15 @@ class LiveJournal {
 		  */
 		string editEvent(Event *event);
 
+		/**
+		  * @return list of journals user allowed to post to
+		  */
+		vector<string> getUsejournals() { login(); return this->usejournals; };
+
 	private:
 		Config *config;
+		vector<string> usejournals;
+		bool logged;
 
 		iqxmlrpc::Client<iqxmlrpc::Http_client_connection> *client;
 

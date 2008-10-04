@@ -25,6 +25,8 @@ LiveJournal::LiveJournal()
 
 	this->username = this->config->queryConfigProperty("config.account.login");
 	this->passwd = this->config->queryConfigProperty("config.account.password");
+
+	this->logged = false;
 }
 
 /**
@@ -94,9 +96,9 @@ string LiveJournal::postEvent(Event *ljevent)
 
 	/* time stuff */
 	time_t rawtime;
-        struct tm * timeinfo;
+        struct tm *timeinfo;
 
-	time ( &rawtime );
+	time (&rawtime);
 	timeinfo = localtime ( &rawtime );
 
 	param_list[0].insert("year", timeinfo->tm_year + 1900);
@@ -160,6 +162,10 @@ string LiveJournal::postEvent(string event, string subject)
 }
 
 void LiveJournal::login() {
+	if (logged == true) {
+		return;
+	}
+
 	string login = this->config->queryConfigProperty("config.account.login");
 	string passwd = this->config->queryConfigProperty("config.account.password");
 
@@ -171,6 +177,19 @@ void LiveJournal::login() {
 	param_list[0].insert("clientversion", ecru::clientversion);	
 
 	Response response = client.execute("LJ.XMLRPC.login", param_list);
+
+	Struct st = response.value().the_struct();
+	if (st.has_field("usejournals")) {
+		if (st["usejournals"].is_array()) {
+			iqxmlrpc::Array journals = st["usejournals"].the_array();
+			for (Array::const_iterator i = journals.begin(); i != journals.end(); ++i) {
+				this->usejournals.push_back(i->get_string());				
+			}
+		}
+
+	}
+
+	this->logged = true;
 }
 
 vector<Event*> LiveJournal::list(int count) {
