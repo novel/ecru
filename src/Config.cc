@@ -85,18 +85,18 @@ string Config::generate(string username, string hpassword)
 {
 	string configDir = "ecru.new";
 	string templateDir = configDir + "/templates";
+	string hooksDir = configDir + "/hooks";
 
-	/* TODO split into separate function somewhere in ecru:: */
-	if ( (mkdir(configDir.c_str(), S_IRWXU))  != 0) {
-		perror(configDir.c_str());
-		exit(0);
+	string dirs[] = { configDir, templateDir, hooksDir };
+	unsigned int dirsCount = sizeof(dirs) / sizeof(dirs[0]);
+
+	for (unsigned int i = 0; i < dirsCount; i++) {
+		/* TODO split into separate function somewhere in ecru:: */
+		if ((mkdir(dirs[i].c_str(), S_IRWXU)) != 0) {
+			perror(dirs[i].c_str());
+			exit(1);
+		}
 	}
-
-	if ( (mkdir(templateDir.c_str(), S_IRWXU)) != 0) {
-		perror(templateDir.c_str());
-		exit(0);
-	}
-
 
 	libconfig::Config *cfg = new libconfig::Config();
 
