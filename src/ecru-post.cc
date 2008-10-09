@@ -17,6 +17,7 @@ void help()
 	cout << "ecru-post" << endl << endl;
 	cout << "\t-D prop=value -- add property/value pair to the post" << endl;
 	cout << "\t-s subject -- specify post subject" << endl;
+	cout << "\t-u journal -- post to other journal" << endl;
 	cout << "\t-t template -- specify template name to use" << endl;
 	cout << "\t-f filename -- specifiy file to read text from, use '-' for stdin" << endl;
 	cout << "\t-v -- show version end exit" << endl;
@@ -43,7 +44,7 @@ string invoke_editor(string templateName)
 
 	string templateContent = templ->getTemplate(templateName);
 
-	//cout << templateContent << endl;
+	cout << templateContent << endl;
 
 	delete templ;
 
@@ -90,10 +91,11 @@ int main(int argc, char** argv)
 	string filename = "";
 	string subject;
 	string propertyPair;
+	string usejournal;
 	size_t index;
 	map<string, string> properties;
 
-	while ((ch = getopt(argc, argv, "D:f:hs:t:v")) != -1) {
+	while ((ch = getopt(argc, argv, "D:f:hs:t:vu:")) != -1) {
 		switch (ch) {
 			case 'D':
 				propertyPair = string(optarg);
@@ -121,6 +123,9 @@ int main(int argc, char** argv)
 			case 'v':
 				ecru::version();
 				exit(0);
+			case 'u':
+				usejournal = string(optarg);
+				break;
 			default:
 				exit(1);
 		}
@@ -146,9 +151,14 @@ int main(int argc, char** argv)
 		exit(0);
 	}
 
+	
 	// command line properties doesn't override the ones defined in text 
 	if ((event->getSubject().length() == 0) && (subject.length() > 0)) {
 		event->setSubject(subject);
+	}
+
+	if ((event->getUsejournal().length() == 0) && (usejournal.length() > 0)) {
+		event->setUsejournal(usejournal);
 	}
 
 	for (map<string,string>::iterator i = properties.begin(); i != properties.end(); i++) {

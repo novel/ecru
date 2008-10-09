@@ -16,6 +16,7 @@ class Event {
 		std::string event;
 		std::string url;
 		std::string eventTime;
+		std::string usejournal;
 
 		map<string, string> properties;
 
@@ -43,6 +44,9 @@ class Event {
 
 		std::string getEventTime() { return this->eventTime; };
 		void setEventTime(std::string eventTime) { this->eventTime = eventTime; };
+
+		std::string getUsejournal() { return this->usejournal; };
+		void setUsejournal(std::string usejournal) { this->usejournal = usejournal; };
 
 		std::string getProperty(std::string key) { return this->properties[key]; };
 		void setProperty(std::string key, std::string value) { this->properties[key] = value; };

@@ -80,6 +80,11 @@ string LiveJournal::postEvent(Event *ljevent)
 	param_list[0].insert("lineendings", "unix");
 	param_list[0].insert("props", this->convertPropertiesToStruct(ljevent->getProperties()));
 
+	string usejournal = ljevent->getUsejournal();
+	if (usejournal.length() > 0) {
+		param_list[0].insert("usejournal", usejournal);
+	}
+
 	string security = ljevent->getSecurity();
 
 	if (security == "public") {

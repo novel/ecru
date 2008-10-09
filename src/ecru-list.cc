@@ -36,8 +36,9 @@ int main(int argc, char** argv)
 	argv += optind;
 
 	LiveJournal *livejournal = new LiveJournal();
+	vector<Event*> events;
 
-	vector<Event*> events = livejournal->list(count);
+	events = livejournal->list(count);
 	
 	for (unsigned int i = 0; i < events.size(); i++) {
 		cout << events[i]->getItemId() << " | ";
