@@ -1,0 +1,7 @@
+#ifndef __ECRU_VERSION_H
+#define __ECRU_VERSION_H
+
+#define APP_NAME	"@APPNAME@"
+#define APP_VERSION	"@APPVERSION@"
+
+#endif // __ECRU_VERSION_H

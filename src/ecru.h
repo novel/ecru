@@ -4,11 +4,13 @@
 #include <string>
 #include <vector>
 
+#include "ecru_version.h"
+
 using namespace std;
 
 namespace ecru {
-	const std::string appname = "ecru";
-	const std::string appversion = "0.1.0";
+	const std::string appname = APP_NAME;
+	const std::string appversion = APP_VERSION;
 	const std::string clientversion = "CLI-ecru/" + appversion;
 
 	void version();
