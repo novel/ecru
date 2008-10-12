@@ -7,10 +7,7 @@ verb 'ecrire' which means 'to write'.
 Ecru hasn't got an own homepage yet and the source code is stored
 on github: http://github.com/novel/ecru/tree.
 
-Build system is based on scons (http://www.scons.org/), most likely
-any Linux distro has it and it should be available through BSD ports
-as well. To build ecru, you have to execute 'scons' in the project's
-root directory. However, you'll have to install some dependencies:
+Ecru has the following dependencies:
 
   * libconfig++ (part of libconfig) 
       (http://www.hyperrealm.com/libconfig/libconfig.html)
@@ -19,5 +16,16 @@ root directory. However, you'll have to install some dependencies:
 
 Alas, not all Linux distros include libconfig and libiqxmlrpc packages
 so I provided links to these projects so you could compile it yourself.
+
+Build system is based on waf (http://code.google.com/p/waf/). Waf
+script comes with ecru and it needs python >= 2.3. Building process
+is pretty simple. In top of the ecru sources directory you have to
+execute these commands:
+
+  ./waf configure
+  ./waf build -p
+  sudo ./waf install
+
+You're ready. 
 
 -- Roman Bogorodskiy <bogorodskiy@gmail.com>
