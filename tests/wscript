@@ -3,6 +3,6 @@
 def build(bld):
     bld.add_subdirs('ecru')
     obj = bld.new_task_gen('cxx', 'staticlib')
-    obj.source = 'main.cpp'
+    obj.source = 'main.cc'
     obj.target = 'unittestmain'
     obj.uselib = 'CPPUNIT'
