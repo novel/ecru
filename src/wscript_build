@@ -1,0 +1,41 @@
+# vim:ft=python
+
+obj = bld.new_task_gen('subst')
+obj.source = 'ecru_version.h.in'
+obj.target = 'ecru_version.h'
+obj.dict = {'APPNAME': APPNAME, 'APPVERSION': VERSION}
+
+obj = bld.new_task_gen('cxx', 'shlib')
+obj.source = '''
+ecru.cc
+Template.cc
+Hook.cc
+'''
+
+obj.includes = '.'
+obj.target = 'ecru'
+obj.name = 'ecru'
+obj.install_path = '${PREFIX}/lib'
+
+obj = bld.new_task_gen('cxx', 'shlib')
+obj.source = '''
+LiveJournal.cc
+Config.cc
+Event.cc
+'''
+obj.includes = '.'
+obj.target = 'livejournalxx'
+obj.name = 'livejournalxx'
+obj.uselib = 'LIBCONFIGXX GLIBMM IQXMLRPC'
+obj.uselib_local = 'ecru'
+obj.install_path = '${PREFIX}/lib'
+
+tools = ['config', 'post', 'list', 'info', 'delete', 'edit']
+
+for tool in tools:
+    obj = bld.new_task_gen('cxx', 'program')
+    obj.source = ''.join(['ecru-', tool, '.cc'])
+    obj.includes = '.'
+    obj.uselib_local = 'ecru livejournalxx'
+    obj.target = "ecru-" + tool
+    obj.install_path = '${PREFIX}/bin'

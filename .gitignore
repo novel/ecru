@@ -1,0 +1,6 @@
+build
+.waf*
+.sconsign.dblite
+.lock-wscript
+output
+doc/ecru-introduction

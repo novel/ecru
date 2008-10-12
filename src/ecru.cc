@@ -153,4 +153,5 @@ int ecru::executeCommand(string command, vector<string> args)
 	if (!WIFEXITED(childExitStatus)) {
 		cerr << "Hook " << command << " failed." << endl;
         }*/
+	return status;
 }
