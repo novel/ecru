@@ -1,8 +1,7 @@
 # vim:ft=python
 
-from logging import fatal
-
 from Configure import conf
+from config_c import parse_flags
 import UnitTest, Utils, Build, misc
 
 VERSION = '0.1.0'
@@ -19,14 +18,20 @@ def set_options(opt):
 def configure(conf):
     conf.check_tool('g++')
     if not conf.env['CXX']:
-        fatal('g++ not found')
+        conf.fatal('g++ not found')
 
-    conf.env.append_value('CXXFLAGS', '-Wall -Werror')
+    conf.find_program('xmlrpc-c-config', var='XMLRPC-C-CONFIG')
+    if not conf.env['XMLRPC-C-CONFIG']:
+        conf.fatal("xmlrpc-c-config wasn't found")
+
+    conf.env.append_value('CXXFLAGS', '-Wall -Werror -fPIC -fpic')
 
     conf.check_cfg(atleast_pkgconfig_version='0.0.0')
     conf.check_cfg(package='libconfig++', uselib_store='LIBCONFIGXX', args='--cflags --libs')
     conf.check_cfg(package='glibmm-2.4', uselib_store='GLIBMM', args='--cflags --libs')
     conf.check_cfg(package='libiqxmlrpc', uselib_store='IQXMLRPC', args='--cflags --libs')
+    ret = Utils.cmd_output("%s c++2 client --cflags --libs --ldflags" % (conf.env['XMLRPC-C-CONFIG']))
+    parse_flags(ret, 'XMLRPC', conf.env)
 
     # for unit tests
     conf.check_cfg(package='cppunit', uselib_store='CPPUNIT', args='--cflags --libs')

@@ -26,7 +26,7 @@ Event.cc
 obj.includes = '.'
 obj.target = 'livejournalxx'
 obj.name = 'livejournalxx'
-obj.uselib = 'LIBCONFIGXX GLIBMM IQXMLRPC'
+obj.uselib = 'LIBCONFIGXX GLIBMM IQXMLRPC XMLRPC'
 obj.uselib_local = 'ecru'
 obj.install_path = '${PREFIX}/lib'
 
@@ -36,6 +36,7 @@ for tool in tools:
     obj = bld.new_task_gen('cxx', 'program')
     obj.source = ''.join(['ecru-', tool, '.cc'])
     obj.includes = '.'
+    obj.uselib = 'XMLRPC'
     obj.uselib_local = 'ecru livejournalxx'
     obj.target = "ecru-" + tool
     obj.install_path = '${PREFIX}/bin'

@@ -9,6 +9,9 @@
 #include <libiqxmlrpc/client.h>
 #include <libiqxmlrpc/http_client.h>
 
+#include <xmlrpc-c/base.hpp>
+#include <xmlrpc-c/client_simple.hpp>
+
 #include "LiveJournal.h"
 #include "Config.h"
 #include "Event.h"
@@ -174,24 +177,33 @@ void LiveJournal::login() {
 	string login = this->config->queryConfigProperty("config.account.login");
 	string passwd = this->config->queryConfigProperty("config.account.password");
 
-	Client<Http_client_connection> client(iqnet::Inet_addr("livejournal.com", 80), "/interface/xmlrpc");
-	Param_list param_list;
-	param_list.push_back(Struct());
-	param_list[0].insert("username", login);
-	param_list[0].insert("hpassword", passwd);
-	param_list[0].insert("clientversion", ecru::clientversion);	
+	string const serverUrl("http://livejournal.com:80/interface/xmlrpc");
+	string const methodName("LJ.XMLRPC.login");
 
-	Response response = client.execute("LJ.XMLRPC.login", param_list);
+	xmlrpc_c::clientSimple xmlrpcClient;
+	xmlrpc_c::value result;
+	xmlrpc_c::paramList loginParams;
 
-	Struct st = response.value().the_struct();
-	if (st.has_field("usejournals")) {
-		if (st["usejournals"].is_array()) {
-			iqxmlrpc::Array journals = st["usejournals"].the_array();
-			for (Array::const_iterator i = journals.begin(); i != journals.end(); ++i) {
-				this->usejournals.push_back(i->get_string());				
-			}
+	map<string, xmlrpc_c::value> loginMap;
+	loginMap["username"] = xmlrpc_c::value_string(login);
+	loginMap["hpassword"] = xmlrpc_c::value_string(passwd);
+	loginMap["clientversion"] = xmlrpc_c::value_string(ecru::clientversion);
+
+	loginParams.add(xmlrpc_c::value_struct(loginMap));
+
+	xmlrpcClient.call(serverUrl, methodName, loginParams, &result);
+
+	map<string, xmlrpc_c::value> const resultStruct = xmlrpc_c::value_struct(result);
+
+	// check if we got "usejournals" key
+	map<string, xmlrpc_c::value>::const_iterator iter = resultStruct.find("usejournals");
+	if (iter != resultStruct.end()) {
+		vector<xmlrpc_c::value> const values = 
+			(xmlrpc_c::value_array(iter->second)).vectorValueValue();
+
+		for (unsigned int i = 0; i < values.size(); i++) {
+			this->usejournals.push_back((string)xmlrpc_c::value_string(values[i]));
 		}
-
 	}
 
 	this->logged = true;
