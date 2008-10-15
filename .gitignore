@@ -4,3 +4,4 @@ build
 .lock-wscript
 output
 doc/ecru-introduction
+*.swp
