@@ -5,9 +5,7 @@
 #include <vector>
 #include <string>
 
-#include <libiqxmlrpc/libiqxmlrpc.h>
-#include <libiqxmlrpc/client.h>
-#include <libiqxmlrpc/http_client.h>
+#include <xmlrpc-c/base.hpp>
 
 #include "Config.h"
 #include "Event.h"
@@ -15,6 +13,7 @@
 class LiveJournal {
 	public:
 		LiveJournal();
+
 		string postEvent(string event, string subject);
 		string postEvent(Event *event);
 
@@ -44,15 +43,14 @@ class LiveJournal {
 		vector<string> usejournals;
 		bool logged;
 
-		iqxmlrpc::Client<iqxmlrpc::Http_client_connection> *client;
-
 		std::string username;
 		std::string passwd;
 
+		//std::string getChallenge();
 		void login();
-		std::string decodeTextValue(const iqxmlrpc::Value *value);
+		std::string decodeTextValue(const xmlrpc_c::value value);
 
-		iqxmlrpc::Value convertPropertiesToStruct(map<string, string> properties);
+		xmlrpc_c::value_struct convertPropertiesToStruct(map<string, string> properties);
 };
 
 #endif // __LIVEJOURNAL_H

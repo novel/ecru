@@ -26,7 +26,7 @@ Event.cc
 obj.includes = '.'
 obj.target = 'livejournalxx'
 obj.name = 'livejournalxx'
-obj.uselib = 'LIBCONFIGXX GLIBMM IQXMLRPC XMLRPC'
+obj.uselib = 'LIBCONFIGXX GLIBMM XMLRPC'
 obj.uselib_local = 'ecru'
 obj.install_path = '${PREFIX}/lib'
 

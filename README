@@ -11,11 +11,8 @@ Ecru has the following dependencies:
 
   * libconfig++ (part of libconfig) 
       (http://www.hyperrealm.com/libconfig/libconfig.html)
-  * glibmm
-  * libiqxmlrpc (http://libiqxmlrpc.sourceforge.net/)
-
-Alas, not all Linux distros include libconfig and libiqxmlrpc packages
-so I provided links to these projects so you could compile it yourself.
+  * glibmm (http://www.gtkmm.org/)
+  * xmlrpc-c (http://xmlrpc-c.sourceforge.net/)
 
 Build system is based on waf (http://code.google.com/p/waf/). Waf
 script comes with ecru and it needs python >= 2.3. Building process
