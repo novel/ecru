@@ -33,7 +33,11 @@ def configure(conf):
     parse_flags(ret, 'XMLRPC', conf.env)
 
     # for unit tests
-    conf.check_cfg(package='cppunit', uselib_store='CPPUNIT', args='--cflags --libs')
+    try:
+        conf.check_cfg(package='cppunit', uselib_store='CPPUNIT', args='--cflags --libs')
+    except ValueError:
+        pass
+
     if 'LIB_CPPUNIT' in conf.env:
         Utils.pprint('CYAN', "To run unit tests use 'waf check'")
     else:
