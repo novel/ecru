@@ -22,8 +22,12 @@ Config::Config()
 	libconfig::Config *cfg = new libconfig::Config();
 	try {	
 		cfg->readFile(filename.c_str());
+	} catch (libconfig::FileIOException& ex) {
+		cerr << "Configuration wasn't found, run 'ecru-config -g' to generate new configuration." << endl;
+		exit(1);
 	} catch (libconfig::ParseException& ex) {
-		cout << "parse exception on line = " << ex.getLine() << ", error: " << ex.getError() << endl;
+		cerr << "Parse exception on line = " << ex.getLine() << ", error: " << ex.getError() << endl;
+		exit(1);
 	}
 
 	this->config = cfg;
@@ -55,7 +59,7 @@ string Config::getCurrentConfigFilename()
 void Config::setCurrentConfigFilename(string filename)
 {
 	string schemaFilename = this->configDirectory + "current";
-	string configFilename = string(basename(filename.c_str()));
+	string configFilename = string(basename((char*)filename.c_str()));
 
 	ofstream schemaOutputStream(schemaFilename.c_str());
 	

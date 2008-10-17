@@ -93,8 +93,6 @@ int main(int argc, char** argv) {
 	argc -= optind;
 	argv += optind;
 	
-	Config *config = new Config();
-
 	if (generate == true) {
 		cout << "Generating ecru configuration..." << endl;
 		if (username.length() == 0) {
@@ -125,6 +123,7 @@ int main(int argc, char** argv) {
 			cout << hooks[i] << endl;
 		}
 	} else {
+		Config *config = new Config();
 		cout << config->queryConfigProperty(argv[1]) << endl;
 	}
 
