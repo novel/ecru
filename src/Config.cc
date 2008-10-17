@@ -91,7 +91,7 @@ string Config::generate(string username, string hpassword)
 	string templateDir = configDir + "/templates";
 	string hooksDir = configDir + "/hooks";
 
-	string dirs[] = { configDir, templateDir, hooksDir };
+	string dirs[] = { configDir, templateDir, hooksDir, hooksDir + "/pre", hooksDir + "/post" };
 	unsigned int dirsCount = sizeof(dirs) / sizeof(dirs[0]);
 
 	for (unsigned int i = 0; i < dirsCount; i++) {
