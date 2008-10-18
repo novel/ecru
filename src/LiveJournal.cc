@@ -101,7 +101,7 @@ string LiveJournal::postEvent(Event *ljevent)
 		allowmask |= 1<<0;
 
 		paramsMap["security"] = xmlrpc_c::value_string("usemask");
-		paramsMap["allowmask"] = xmlrpc_c::value_int((int)allowmask);
+		paramsMap["allowmask"] = xmlrpc_c::value_int(allowmask);
 	} else /* assuming private */ {
 		paramsMap["security"] = xmlrpc_c::value_string("private");
 	}
@@ -277,6 +277,9 @@ Event* LiveJournal::getEvent(int itemId)
 			ljevent->setEventTime((string)xmlrpc_c::value_string(i->second));
 		} else if (i->first == "event") {
 			ljevent->setEvent(decodeTextValue(i->second));
+		} else if (i->first == "allowmask") {
+			//cout << i->second.type() << endl;
+			//cout << (( (unsigned int)xmlrpc_c::value_int(i->second) >> 0) & 1) << endl;
 		} else if (i->first == "props") {
 			map<string, xmlrpc_c::value> props = xmlrpc_c::value_struct(i->second);
 
