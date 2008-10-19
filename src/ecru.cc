@@ -8,6 +8,7 @@
 #include <sys/wait.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <libgen.h>
 
 #include "ecru.h"
 
@@ -125,20 +126,27 @@ bool ecru::isExecutable(string path)
 
 int ecru::executeCommand(string command, vector<string> args)
 {
+//	cout << "EXECUTING COMMAND " << command << endl;
+
 	pid_t pid = fork();
 
 	if (pid == 0) {
-		//
-		//cout << command << " " << endl;
-		args.insert(args.begin(), command);
-		
-		char **argv = (char **)malloc(sizeof(char *) * args.size());
+		int ret;
+		unsigned int i;
 
-		for (unsigned int i = 0; i < args.size(); i++) {
-			argv[i] = strdup(args[i].c_str());
+		char **params = (char **)malloc(sizeof(char *) * (args.size() + 2));
+		params[0] = basename(command.c_str());
+		for (i = 0; i < args.size(); i++) {
+			params[i+1] = (char *)args[i].c_str();
 		}
+		params[i+1] = NULL;		
 
-		execv(command.c_str(), argv);
+		ret = execve(command.c_str(), /*argv*/ params, NULL);
+		if (ret == -1) {
+			perror("execve");
+			_exit(1);
+		} else
+			_exit(0);
 	} else if (pid < 0) {
 		cerr << "fork failed" << endl;
 		exit(1);
@@ -146,13 +154,8 @@ int ecru::executeCommand(string command, vector<string> args)
 
 	int status;
 	wait(&status);
-	/*
-	int childExitStatus;
 
-	pid_t ws = waitpid(pid, &childExitStatus, WNOHANG);
+//	cout << "EXEUCTE FINISHED OF COMMAND " << command << " (exit status = " << status << ")" << endl;
 
-	if (!WIFEXITED(childExitStatus)) {
-		cerr << "Hook " << command << " failed." << endl;
-        }*/
 	return status;
 }

@@ -65,6 +65,9 @@ string invoke_editor(string templateName)
 		return NULL;
 	}
 
+	// post hooks time
+	hook->execPostHooks(string(tmp_filename));
+
 	ifstream mystream;
 	mystream.open(tmp_filename);
 
@@ -80,6 +83,9 @@ string invoke_editor(string templateName)
 	if (remove(tmp_filename) != 0) {
 		perror(tmp_filename);
 	}
+
+//	cout << result << endl;
+//	exit(0);
 
 	return result;
 }
