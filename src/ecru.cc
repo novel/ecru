@@ -135,7 +135,7 @@ int ecru::executeCommand(string command, vector<string> args)
 		unsigned int i;
 
 		char **params = (char **)malloc(sizeof(char *) * (args.size() + 2));
-		params[0] = basename(command.c_str());
+		params[0] = basename((char *)command.c_str());
 		for (i = 0; i < args.size(); i++) {
 			params[i+1] = (char *)args[i].c_str();
 		}
