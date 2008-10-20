@@ -5,6 +5,7 @@
 \date{}
 \begin{document}
    \maketitle
+   \tableofcontents
    \section{About}
     Ecru is a command-line LiveJournal client which pretends to be flexible
     and follow Unix way.
@@ -35,7 +36,7 @@
 	A tool called {\tt ecru-post } is responsible for posting new entries. It can be used
 	either in interactive or command line mode. Let's start with the interactive mode first.
 
-	If you type {\tt ecru-post } without any argument it will load {\tt \$EDITOR }. As soon as you
+	If you type {\tt ecru-post } without any argument it will load {\tt \$EDITOR}. As soon as you
 	finish typing, save the file and quit from the editor, the post will be submitted and
 	{\tt ecru-post } will return an URL of the new post.
 
@@ -118,13 +119,26 @@
 
 	Now {\tt ecru-config -l} should show example.conf marked with asterisk.
       \subsection{Hooks}
+	\subsubsection{Introduction}
         Ecru supports pre- and post- edit hooks. What does it mean? Before and after invoking an editor,
 	ecru checks for executable files in {\tt \verb+~+/.ecru/hooks/pre} for pre- hooks and
 	{\tt \verb+~+/.ecru/hooks/post} for post hooks and executes them, passing filename of with your
 	post as the first argument. So you can do whatever you want with it. Some typical usages as
-	I see them: replace stuff like 'current_music: `get_my_music` with executon result of 
-	{\tt get_my_music} app (check the {\tt hooks} directory of the ecru distrubution to find
+	I see them: replace stuff like 'current\_music: `get\_my\_music` with executon result of 
+	{\tt get\_my\_music} app (check the {\tt hooks} directory of the ecru distrubution to find
 	a script that does at; it's possible to use it for introducing various types of macroses, etc.
+	\subsubsection{Writing hooks in Python}
+	Hooks for ecru can be implemented in various languages, but {\tt Python} seems to be a good choice.
+	If you're writing a script in Python, you might want to use some help routine.  There's a 
+	{\tt python} directory in the top-level ecru sources directory, it contains a helper module for 
+	implementing hooks in python. To install it, execute:
+
+	\begin{verbatim}
+		sudo python setup.py install
+	\end{verbatim}
+
+	in the {\tt python} directory. You can see usage example by viewing {\tt hooks/00\_markdown.py} script
+	which implements markdown support.
      \section{VIM configuration}
         If you're using vim, the following tips might be useful to you. Add the following to your {\tt .vimrc}:
         \begin{verbatim}

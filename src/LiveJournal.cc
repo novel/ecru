@@ -50,6 +50,22 @@ std::string LiveJournal::decodeTextValue(const xmlrpc_c::value value)
 		} catch (Glib::ConvertError ex) {
 			result =  "error encoding string";
 		}
+	} else if (value.type() == xmlrpc_c::value::TYPE_BOOLEAN) {
+		cout << "hehehehe boolean value!!!" << endl;
+		bool booleanValue;
+
+		booleanValue = xmlrpc_c::value_boolean(value);
+		if (booleanValue)
+			return "1";
+		else
+			return "0";
+	} else if (value.type() == xmlrpc_c::value::TYPE_INT) {
+		int intValue = xmlrpc_c::value_int(value);
+		ostringstream osstream;
+		
+		osstream << intValue;
+		
+		return osstream.str();
 	}
 
 	return result;

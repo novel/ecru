@@ -1,8 +1,11 @@
 Bugs
 -------------------------------
+ * revtime and revnum properties should be adjusted
+   when submitting editted post
 
 Nice to have
 -------------------------------
  * Markdown support
  * Unit tests
    Figure out how to integrate unit test with waf in a nice way
+ * Mutt-like headers configuration
