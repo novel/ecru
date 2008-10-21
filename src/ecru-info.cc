@@ -59,6 +59,12 @@ int main(int argc, char** argv)
 		// print eventtime
 		cout << " @ " << ljevent->getEventTime() << endl;
 
+		// security
+		string security = ljevent->getSecurity();
+
+		if (security.length() != 0)
+			cout << "security: " << security << endl;
+
 		// list keywords
 		map<string, string> properties = ljevent->getProperties();
 

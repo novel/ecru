@@ -293,7 +293,21 @@ Event* LiveJournal::getEvent(int itemId)
 			ljevent->setEventTime((string)xmlrpc_c::value_string(i->second));
 		} else if (i->first == "event") {
 			ljevent->setEvent(decodeTextValue(i->second));
-		} else if (i->first == "allowmask") {
+		} else if (i->first == "security") {
+			string security = (string)xmlrpc_c::value_string(i->second);
+
+			if ((security == "public") || (security == "private"))
+				ljevent->setSecurity(security);
+			else { // have to read allow mask
+				int allowmask = (int)xmlrpc_c::value_int(event["allowmask"]);
+				if (allowmask & (1 << 0 /* ttt */)) {
+					//cout << "friends onkly!!!!!" << endl;
+					ljevent->setSecurity("friendsonly");
+				} else {
+					cout << "unkknown shutz" << endl;
+				}
+				//ut << allowmask >> 0 & 1  << endl;
+			}
 			//cout << i->second.type() << endl;
 			//cout << (( (unsigned int)xmlrpc_c::value_int(i->second) >> 0) & 1) << endl;
 		} else if (i->first == "props") {
