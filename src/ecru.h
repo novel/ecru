@@ -46,8 +46,12 @@ namespace ecru {
 	  *
 	  * @return exit status of the command
 	  */
-
 	int executeCommand(string command, vector<string> args);
+
+	/**
+	  * Represent integer as binary
+	  */
+	string getBinary(int integer);
 }
 
 #endif // __ECRU_H

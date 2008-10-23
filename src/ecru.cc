@@ -159,3 +159,19 @@ int ecru::executeCommand(string command, vector<string> args)
 
 	return status;
 }
+
+string ecru::getBinary(int integer)
+{	
+	int length = sizeof(int) * 8;
+	string result;
+
+	for (int i = length - 1; i >= 0; i--) {
+		if (((integer >> i) & 1) == 1) {
+			result += '1';
+		} else {
+			result += '0';
+		}
+	}
+
+	return result;
+}

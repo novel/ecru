@@ -17,6 +17,7 @@ class Event {
 		std::string url;
 		std::string eventTime;
 		std::string usejournal;
+		int allowmask;
 
 		map<string, string> properties;
 
@@ -47,6 +48,9 @@ class Event {
 
 		std::string getUsejournal() { return this->usejournal; };
 		void setUsejournal(std::string usejournal) { this->usejournal = usejournal; };
+
+		int getAllowmask() { return this->allowmask; }
+		void setAllowmask(int allowmask) { this->allowmask = allowmask; }
 
 		std::string getProperty(std::string key) { return this->properties[key]; };
 		void setProperty(std::string key, std::string value) { this->properties[key] = value; };

@@ -63,8 +63,13 @@ int main(int argc, char** argv)
 		string security = ljevent->getSecurity();
 
 		if (security.length() != 0)
-			cout << "security: " << security << endl;
-
+			if ((security == "public") || (security == "private")) {
+				cout << "security: " << security << endl;
+			} else {
+				cout << "security: " << security;
+				cout << " (allowmask: " << ljevent->getAllowmask();
+				cout << ")" << endl;
+			}
 		// list keywords
 		map<string, string> properties = ljevent->getProperties();
 

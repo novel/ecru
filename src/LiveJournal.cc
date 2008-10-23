@@ -299,12 +299,16 @@ Event* LiveJournal::getEvent(int itemId)
 			if ((security == "public") || (security == "private"))
 				ljevent->setSecurity(security);
 			else { // have to read allow mask
-				int allowmask = (int)xmlrpc_c::value_int(event["allowmask"]);
+				int allowmask = 
+					(int)xmlrpc_c::value_int(event["allowmask"]);
+				ljevent->setAllowmask(allowmask);
+
 				if (allowmask & (1 << 0 /* ttt */)) {
 					//cout << "friends onkly!!!!!" << endl;
 					ljevent->setSecurity("friendsonly");
 				} else {
-					cout << "unkknown shutz" << endl;
+					cout << "unkknown shutz: ";
+					cout << ecru::getBinary(allowmask) << endl;
 				}
 				//ut << allowmask >> 0 & 1  << endl;
 			}
@@ -313,9 +317,10 @@ Event* LiveJournal::getEvent(int itemId)
 		} else if (i->first == "props") {
 			map<string, xmlrpc_c::value> props = xmlrpc_c::value_struct(i->second);
 
-			for (map<string, xmlrpc_c::value>::const_iterator j = props.begin();
-					j != props.end(); j++) {
-				ljevent->setProperty(j->first, decodeTextValue(j->second));
+			for (map<string, xmlrpc_c::value>::const_iterator j 
+					= props.begin(); j != props.end(); j++) {
+				ljevent->setProperty(j->first, 
+						decodeTextValue(j->second));
 			}
 		}
 	}
