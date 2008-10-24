@@ -1,11 +1,18 @@
 Bugs
 -------------------------------
+ * allowmask sometimes acts strange (almsk)
  * revtime and revnum properties should be adjusted
-   when submitting editted post
+   when submitting editted post (seem to happen on livejournal side???)
 
 Nice to have
 -------------------------------
- * Markdown support
+ * Markdown support (implemented, needs testing)
  * Unit tests
    Figure out how to integrate unit test with waf in a nice way
  * Mutt-like headers configuration
+ * Logging (lgng) (almsk kinda depends on it since it's useful for debugging)
+
+-------------------------------------------------------------
+Release goals:
+
+1.0.0: lgng + alsmk
