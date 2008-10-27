@@ -5,3 +5,4 @@ build
 output
 doc/ecru-introduction
 *.swp
+*.pyc

@@ -10,6 +10,7 @@ obj.source = '''
 ecru.cc
 Template.cc
 Hook.cc
+Logger.cc
 '''
 
 obj.includes = '.'
