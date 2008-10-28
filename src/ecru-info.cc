@@ -54,7 +54,7 @@ int main(int argc, char** argv)
 		if (subject.length() == 0)
 			subject = "(no subject)";
 
-		cout << "subject : " << subject;
+		cout << "subject: " << subject;
 
 		// print eventtime
 		cout << " @ " << ljevent->getEventTime() << endl;
@@ -67,7 +67,8 @@ int main(int argc, char** argv)
 				cout << "security: " << security << endl;
 			} else {
 				cout << "security: " << security;
-				cout << " (allowmask: " << ljevent->getAllowmask();
+				cout << " (allowmask: ";
+			       	cout << ecru::getBinary(ljevent->getAllowmask());
 				cout << ")" << endl;
 			}
 		// list keywords

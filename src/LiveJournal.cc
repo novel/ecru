@@ -9,6 +9,7 @@
 #include <xmlrpc-c/client_simple.hpp>
 
 #include "LiveJournal.h"
+#include "Logger.h"
 #include "Config.h"
 #include "Event.h"
 #include "ecru.h"
@@ -17,12 +18,14 @@ LiveJournal::LiveJournal()
 {
 	setlocale(LC_ALL, "");
 	
-	this->config = new Config(); //std::string(getenv("HOME")) + "/.ecru/default.conf");
+	this->config = new Config();
 
 	this->username = this->config->queryConfigProperty("config.account.login");
 	this->passwd = this->config->queryConfigProperty("config.account.password");
 
 	this->logged = false;
+
+	Logger::instance()->debug("LiveJournal class constructed.");
 }
 
 /**
@@ -192,6 +195,7 @@ void LiveJournal::login() {
 	map<string, xmlrpc_c::value> const resultStruct = xmlrpc_c::value_struct(result);
 
 	// check if we got "usejournals" key
+	
 	map<string, xmlrpc_c::value>::const_iterator iter = resultStruct.find("usejournals");
 	if (iter != resultStruct.end()) {
 		vector<xmlrpc_c::value> const values = 
@@ -303,6 +307,10 @@ Event* LiveJournal::getEvent(int itemId)
 					(int)xmlrpc_c::value_int(event["allowmask"]);
 				ljevent->setAllowmask(allowmask);
 
+				Logger::instance()->
+					debug(string(__func__) +": allowmask = " +
+						ecru::getBinary(allowmask));
+
 				if (allowmask & (1 << 0 /* ttt */)) {
 					//cout << "friends onkly!!!!!" << endl;
 					ljevent->setSecurity("friendsonly");
@@ -376,8 +384,6 @@ string LiveJournal::editEvent(Event *event)
 	paramsMap["lineendings"] = xmlrpc_c::value_string("unix");
 	paramsMap["props"] = convertPropertiesToStruct(event->getProperties());
 
-	params.add(xmlrpc_c::value_struct(paramsMap));
-
 	string security = event->getSecurity();
 
 	if (security == "public") {
@@ -385,13 +391,17 @@ string LiveJournal::editEvent(Event *event)
 	} else if (security == "friendsonly") {
 		unsigned int allowmask = 0;
 		allowmask |= 1<<0;
+		Logger::instance()->debug(string(__func__) + 
+				" allowmask = " +
+				ecru::getBinary(allowmask));
 
 		paramsMap["security"] = xmlrpc_c::value_string("usemask");
-		paramsMap["allowmask"] = xmlrpc_c::value_int((int)allowmask);
+		paramsMap["allowmask"] = xmlrpc_c::value_int(allowmask);
 	} else /* assuming private */ {
 		paramsMap["security"] = xmlrpc_c::value_string("private");
 	}
 
+	params.add(xmlrpc_c::value_struct(paramsMap));
 	xmlrpcClient.call(serverUrl, methodName, params, &result);
 
 	map<string, xmlrpc_c::value> const resultStruct = xmlrpc_c::value_struct(result);

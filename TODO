@@ -1,6 +1,8 @@
 Bugs
 -------------------------------
- * allowmask sometimes acts strange (almsk)
+ * allowmask sometimes acts strange (almsk) (fixed I hope)
+ * ecru-edit doesn't bring security field to the editor (edsec)
+ * ecru-edit -- -1 should replace '-1' with the actual id before submitting (edsckt)
  * revtime and revnum properties should be adjusted
    when submitting editted post (seem to happen on livejournal side???)
 
@@ -13,6 +15,6 @@ Nice to have
  * Logging (lgng) (almsk kinda depends on it since it's useful for debugging)
 
 -------------------------------------------------------------
-Release goals:
+Release goals (or stoppers):
 
-0.1.0: lgng + alsmk
+0.1.0: lgng (done) + alsmk (done) + edsec + edshct
