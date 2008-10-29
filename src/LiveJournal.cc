@@ -293,6 +293,8 @@ Event* LiveJournal::getEvent(int itemId)
 	for (map<string, xmlrpc_c::value>::const_iterator i = event.begin(); i != event.end(); i++) {
 		if (i->first == "subject") {
 			ljevent->setSubject(decodeTextValue(i->second));
+		} else if (i->first == "itemid") {
+			ljevent->setItemId((int)xmlrpc_c::value_int(i->second));
 		} else if (i->first == "eventtime") {
 			ljevent->setEventTime((string)xmlrpc_c::value_string(i->second));
 		} else if (i->first == "event") {

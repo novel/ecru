@@ -2,7 +2,7 @@ Bugs
 -------------------------------
  * allowmask sometimes acts strange (almsk) (fixed I hope)
  * ecru-edit doesn't bring security field to the editor (edsec)
- * ecru-edit -- -1 should replace '-1' with the actual id before submitting (edsckt)
+ * ecru-edit -- -1 should replace '-1' with the actual id before submitting (edshct) (fixed)
  * revtime and revnum properties should be adjusted
    when submitting editted post (seem to happen on livejournal side???)
 

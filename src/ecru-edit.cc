@@ -95,7 +95,7 @@ int main(int argc, char** argv)
 	string text = invoke_editor(ljevent);
 
 	Event *updatedEvent = new Event(text);
-	updatedEvent->setItemId(itemId);
+	updatedEvent->setItemId(ljevent->getItemId());
 
 	string postUrl = livejournal->editEvent(updatedEvent);
 	cout << "Location of your post is: " << postUrl << endl;
