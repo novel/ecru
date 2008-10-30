@@ -83,6 +83,8 @@ void Event::parseText(const string text)
 
 void Event::dump(ostream &stream) {
 	bool hasSubject = false;
+	bool hasSecurity = false;
+
 	/*
 	 * it feels like there's always some props present, at least a special ones,
 	 * so probably we can not to check it, though let's do it just to be sure
@@ -94,6 +96,11 @@ void Event::dump(ostream &stream) {
 		stream << "subject: " << this->subject << endl;
 	}
 
+	if (this->security.length() > 0) {
+		hasSecurity = true;
+		stream << "security: " << this->security << endl;
+	}
+
 	if (this->properties.size() > 0) {
 		hasProperties = true;
 		for (map<string,string>::iterator i = properties.begin(); i != properties.end(); i++) {
@@ -102,7 +109,7 @@ void Event::dump(ostream &stream) {
 	}
 
 	// split headers
-	if (hasSubject || hasProperties) {
+	if (hasSubject || hasSecurity || hasProperties) {
 		stream << endl;
 	}
 	stream << this->event << endl;
