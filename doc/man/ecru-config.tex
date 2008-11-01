@@ -1,0 +1,75 @@
+\documentclass[english]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{babel}
+\usepackage{verbatim}
+\usepackage[fancy]{ecru}
+
+\setVersion{0.1.0}
+
+\begin{document}
+
+\begin{Name}{1}{ecru-config}{Roman Bogorodskiy}{ecru}{ecru-config}
+	\Prog{ecru-config} is a tool for managing ecru configuration.
+\end{Name}
+
+\section{Synopsis}
+
+\Prog{ecru-config} \Arg{config\_variable}
+
+\Prog{ecru-config} \oOpt{-h} \oOptArg{-s}{path}
+
+\Prog{ecru-config} \Opt{-v}
+
+\Prog{ecru-config} \OptArg{-h}{hook}
+
+\section{Description}
+\Prog{ecru-config} is a tool for managing ecru configuration. Actually, since
+all conifguration files are plain text, it's possible to modify them directly
+without using \Prog{ecru-config}, however \Prog{ecru-config} can save of your
+time.
+
+By default \Prog{ecru-config} prints value of the config variable given by
+\Arg{config\_variable} argument. \Arg{config\_variable} is an XPath-like 
+expression of the configuration varible name.
+
+For example, if the configuration file looks this way:
+
+\begin{verbatim}
+config: {
+        account:
+        {
+                login = "somelogin";
+                password = "somepass";
+        };
+};
+\end{verbatim}
+
+you can do the following:
+
+\Prog{ecru-config} \Arg{config.account.login}
+
+and it will print out "somelogin".
+
+\section{Options}
+
+\begin{Description}\setlength{\itemsep}{0cm}
+\item[\Opt{-l}] List configuration profiles.
+\item[\OptArg{-s}{path} Switch current configuration profile to \Arg{path}.
+\item[\Opt{-v}] Show ecru version.
+\item[\OptArg{-h}{hook}] List hooks of type \Arg{hook}. Currently the following
+values of \Arg{hook} are supported:
+	\begin{itemize}
+		\item \texttt{pre} - pre-hooks
+		\item \texttt{post} - post-hooks
+	\end{itemize}
+\end{Description}
+
+\section{Files}
+
+\begin{Description}\setlength{\itemsep}{0cm}
+\item[\File{~/.ecru}] Configuration directory root.
+\end{Description}
+
+\section{See Also}
+
+\Cmd{ecru-post}{1}, \Cmd{ecru-edit}{1}, \Cmd{ecru-list}{1}, \Cmd{ecru-info}{1}
