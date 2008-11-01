@@ -123,6 +123,9 @@ int main(int argc, char** argv) {
 			cout << hooks[i] << endl;
 		}
 	} else {
+		if (argc < 1)
+			usage();
+
 		Config *config = new Config();
 		cout << config->queryConfigProperty(argv[1]) << endl;
 	}
