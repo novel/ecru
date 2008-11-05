@@ -67,7 +67,14 @@ values of \Arg{hook} are supported:
 \section{Files}
 
 \begin{Description}\setlength{\itemsep}{0cm}
-\item[\File{~/.ecru}] Configuration directory root.
+\item[\File{\$HOME/.ecru}] Configuration directory root.
+\item[\File{\$HOME/.ecru/default.conf}] Default configuration profile.
+\item[\File{\$HOME/.ecru/current}] Pointer to the default configuration
+profile, points to \texttt{default.conf} by default.
+\item[\File{\$HOME/.ecru/hooks}] Hooks directory.
+\item[\File{\$HOME/.ecru/hooks/pre}] Pre-hooks directory.
+\item[\File{\$HOME/.ecru/hooks/post}] Post-hooks directory.
+\item[\File{\$HOME/.ecru/templates}] Templates directory.
 \end{Description}
 
 \section{See Also}
