@@ -127,7 +127,14 @@ int main(int argc, char** argv) {
 			usage();
 
 		Config *config = new Config();
-		cout << config->queryConfigProperty(argv[1]) << endl;
+		try {
+			cout << config->queryConfigProperty(argv[0]) << endl;
+		} catch (libconfig::SettingNotFoundException& ex) {
+			cerr << "Setting '" << argv[0];
+		        cerr << "' was not found.";
+			cerr << endl;
+			exit(1);
+		}
 	}
 
 	return 0;

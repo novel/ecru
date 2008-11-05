@@ -1,5 +1,6 @@
 # vim:ft=python
 
+import Options
 from Configure import conf
 from config_c import parse_flags
 import UnitTest, Utils, Build, misc
@@ -13,7 +14,8 @@ blddir = 'output'
 Utils.waf_version(mini='1.5.0', maxi='1.5.9')
 
 def set_options(opt):
-    print '  setting the options'
+    opt.add_option('--debug', action='store_true', default=False,
+            help='Compile with debug symbols')
 
 def configure(conf):
     conf.check_tool('g++')
@@ -25,6 +27,9 @@ def configure(conf):
         conf.fatal("xmlrpc-c-config wasn't found")
 
     conf.env.append_value('CXXFLAGS', '-Wall -Werror -fPIC -fpic')
+
+    if Options.options.debug:
+        conf.env.append_value('CXXFLAGS', '-g')
 
     conf.check_cfg(atleast_pkgconfig_version='0.0.0')
     conf.check_cfg(package='libconfig++', uselib_store='LIBCONFIGXX', args='--cflags --libs')
