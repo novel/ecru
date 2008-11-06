@@ -16,16 +16,17 @@
 
 \Prog{ecru-config} \Arg{config\_variable}
 
-\Prog{ecru-config} \oOpt{-h} \oOptArg{-s}{path}
+\Prog{ecru-config} \oOpt{-l} \oOptArg{-s}{profile}
 
 \Prog{ecru-config} \Opt{-v}
 
 \Prog{ecru-config} \OptArg{-h}{hook}
 
 \section{Description}
+\subsection{Common}
 \Prog{ecru-config} is a tool for managing ecru configuration. Actually, since
 all conifguration files are plain text, it's possible to modify them directly
-without using \Prog{ecru-config}, however \Prog{ecru-config} can save of your
+without using \Prog{ecru-config}, however \Prog{ecru-config} can save  your
 time.
 
 By default \Prog{ecru-config} prints value of the config variable given by
@@ -49,6 +50,23 @@ you can do the following:
 \Prog{ecru-config} \Arg{config.account.login}
 
 and it will print out "somelogin".
+
+\subsection{Profiles}
+Ecru supports having several configuration profiles. Configuration profile
+is basically a plain text file with \texttt{.conf} extension which is located
+inside \texttt{\$HOME/.ecru} directory. When executed with \Opt{-l} option,
+\Prog{ecru-config} prints out a list of found configuration profiles marking
+the current one with asterisk.
+
+You can switch configuration profiles using \texttt{-s} option. 
+It changes current configuration to the value given in \texttt{profile}. \texttt{profile}
+can be either full path like \texttt{\$HOME/.ecru/someprof.conf} or just a
+filename like \texttt{someprof.conf}, \Prog{ecru-config} cuts down the path and leaves
+only filename. It's done that way so it were handy to use shell path completion.
+
+\subsection{Hooks}
+You can use \texttt{-h} to list hooks. Check out the options section to know more
+details on this option.
 
 \section{Options}
 
