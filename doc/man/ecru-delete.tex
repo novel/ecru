@@ -1,0 +1,35 @@
+\documentclass[english]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{babel}
+\usepackage{verbatim}
+\usepackage[fancy]{ecru}
+
+\setVersion{0.1.0}
+
+\begin{document}
+
+\begin{Name}{1}{ecru-delete}{Roman Bogorodskiy}{ecru}{ecru-delete}
+	\Prog{ecru-delete} is a tool for deleting posts.
+\end{Name}
+
+\section{Synopsis}
+
+\Prog{ecru-delete} \Arg{id1 id2 id3 ... idN}
+
+\Prog{ecru-delete} \Opt{-v}
+
+
+\section{Description}
+\Prog{ecru-delete} is a tool for deleting entries from the journal. It takes
+a list of item ids to delete and deletes them. You can obtain these ids by
+calling \Cmd{ecru-list}{1}.
+
+\section{Options}
+
+\begin{Description}\setlength{\itemsep}{0cm}
+\item[\Opt{-v}] Show ecru version.
+\end{Description}
+
+\section{See Also}
+
+\Cmd{ecru-post}{1}, \Cmd{ecru-edit}{1}, \Cmd{ecru-list}{1}, \Cmd{ecru-info}{1}

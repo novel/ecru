@@ -1,0 +1,34 @@
+\documentclass[english]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{babel}
+\usepackage{verbatim}
+\usepackage[fancy]{ecru}
+
+\setVersion{0.1.0}
+
+\begin{document}
+
+\begin{Name}{1}{ecru-list}{Roman Bogorodskiy}{ecru}{ecru-list}
+	\Prog{ecru-list} is a tool for searching posts.
+\end{Name}
+
+\section{Synopsis}
+
+\Prog{ecru-list} \oOptArg{-c}{count} \oOpt{-s}
+
+\Prog{ecru-list} \Opt{-v}
+
+
+\section{Description}
+\Prog{ecru-list} lists last 20 entries in the journal. 
+\section{Options}
+
+\begin{Description}\setlength{\itemsep}{0cm}
+\item[\OptArg{-c}{count}] Show \Arg{count} last entries instead of 20.
+\item[\Opt{-s}] Show post URL (might be long so not shown by default
+\item[\Opt{-v}] Show ecru version.
+\end{Description}
+
+\section{See Also}
+
+\Cmd{ecru-config}{1}, \Cmd{ecru-post}{1}, \Cmd{ecru-edit}{1}, \Cmd{ecru-info}{1}
