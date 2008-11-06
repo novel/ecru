@@ -13,7 +13,7 @@ void usage()
 
 	cerr << "usage: ecru-config variable_path" << endl;
 	cerr << "usage: ecru-config [-l|-s path]" << endl;
-	cerr << "usage: ecru-config [-v|-h]" << endl;
+	cerr << "usage: ecru-config -v" << endl;
 	cerr << "usage: ecru-config -h [pre|post]" << endl;
 	exit(1);
 }
