@@ -3,7 +3,7 @@
 obj = bld.new_task_gen('subst')
 obj.source = 'ecru_version.h.in'
 obj.target = 'ecru_version.h'
-obj.dict = {'APPNAME': APPNAME, 'APPVERSION': VERSION}
+obj.dict = {'APPNAME': bld.env["APPNAME"], 'APPVERSION': bld.env["VERSION"]}
 
 obj = bld.new_task_gen('cxx', 'shlib')
 obj.source = '''

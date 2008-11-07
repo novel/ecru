@@ -18,6 +18,9 @@ def set_options(opt):
             help='Compile with debug symbols')
 
 def configure(conf):
+    conf.env["APPNAME"] = APPNAME
+    conf.env["VERSION"] = VERSION
+
     conf.check_tool('g++')
     if not conf.env['CXX']:
         conf.fatal('g++ not found')
