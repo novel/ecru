@@ -11,7 +11,7 @@ void usage()
 {
 
 	cout << "usage: ecru-edit itemId" << endl;
-	cout << "usage: ecru-list -v" << endl;
+	cout << "usage: ecru-edit -v" << endl;
 	exit(0);
 }
 

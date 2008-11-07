@@ -1,0 +1,51 @@
+\documentclass[english]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{babel}
+\usepackage{verbatim}
+\usepackage[fancy]{ecru}
+
+\setVersion{0.1.0}
+
+\begin{document}
+
+\begin{Name}{1}{ecru-post}{Roman Bogorodskiy}{ecru}{ecru-post}
+	\Prog{ecru-post} is a tool for posting new entries to the journal.
+\end{Name}
+
+\section{Synopsis}
+
+\Prog{ecru-post} \oOptArg{-D}{prop=value} \oOptArg{-s}{subject} \oOptArg{-u}{journal}
+	\oOptArg{-t}{template} \oOptArg{-f}{filename}
+
+\Prog{ecru-post} \Opt{-v}
+
+\section{Description}
+\Prog{ecru-post} is a tool for adding new entries to the journal. As you can see,
+all options are optional. Unless \Opt{-f} is given, it starts editor specified
+via EDITOR environment variable or uses \texttt{vi} if it's not defined.
+
+Read 'ecru introduction' for description of the post structure.
+
+If you decide not to submit post, you can delete the post body and quit the editor,
+post will not be submitted.
+\section{Options}
+
+\begin{Description}\setlength{\itemsep}{0cm}
+\item[\OptArg{-D}{prop=value}] Set property \texttt{prop} to value \texttt{value}.
+This option can be used multiple times.
+\item[\OptArg{-s}{subject}] Set the subject of the entry to \Arg{subject}.
+\item[\OptArg{-u}{journal}] Set journal to post in.
+\item[\OptArg{-t}{template}] Specify template file to pre-load.
+\item[\OptArg{-f}{filename}] Instead of opening \texttt{\$EDITOR}, load contents of the post
+from \Arg{filename}. If \Arg{filename} equals to \texttt{-}, read contents 
+from \texttt{stdin}.
+\end{Description}
+
+\section{Environment}
+\begin{Description}\setlength{\itemsep}{0cm}
+\item[EDITOR] Specifies the editor to use.
+\end{Description}
+
+\section{See Also}
+
+\Cmd{ecru-edit}{1}, \Cmd{ecru-list}{1}, \Cmd{ecru-delete}{1}, \Cmd{ecru-info}{1}

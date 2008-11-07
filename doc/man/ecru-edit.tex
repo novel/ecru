@@ -1,0 +1,42 @@
+\documentclass[english]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{babel}
+\usepackage{verbatim}
+\usepackage[fancy]{ecru}
+
+\setVersion{0.1.0}
+
+\begin{document}
+
+\begin{Name}{1}{ecru-edit}{Roman Bogorodskiy}{ecru}{ecru-edit}
+	\Prog{ecru-edit} is a tool for editing posts.
+\end{Name}
+
+\section{Synopsis}
+
+\Prog{ecru-edit} \Arg{id}
+
+\Prog{ecru-edit} \Opt{-v}
+
+
+\section{Description}
+\Prog{ecru-info} is a tool for editing posts. It takes id of an item to
+edit as argument. It fetches a post and opens it in editor specified by
+\texttt{EDITOR} environment variable or \texttt{vi} if it's not defined.
+When you are ready, save the file and leave (quit) the editor, the entry
+will be updated. You can get list of the item ids by calling \Cmd{ecru-list}{1}.
+
+\section{Options}
+
+\begin{Description}\setlength{\itemsep}{0cm}
+\item[\Opt{-v}] Show ecru version.
+\end{Description}
+
+\section{Environment}
+\begin{Description}\setlength{\itemsep}{0cm}
+\item[EDITOR] Specifies the editor to use.
+\end{Description}
+
+\section{See Also}
+
+\Cmd{ecru-post}{1}, \Cmd{ecru-list}{1}, \Cmd{ecru-delete}{1}, \Cmd{ecru-info}{1}

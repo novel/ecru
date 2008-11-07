@@ -1,0 +1,35 @@
+\documentclass[english]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{babel}
+\usepackage{verbatim}
+\usepackage[fancy]{ecru}
+
+\setVersion{0.1.0}
+
+\begin{document}
+
+\begin{Name}{1}{ecru-info}{Roman Bogorodskiy}{ecru}{ecru-info}
+	\Prog{ecru-info} is a tool for getting information about posts.
+\end{Name}
+
+\section{Synopsis}
+
+\Prog{ecru-info} \Arg{id}
+
+\Prog{ecru-info} \Opt{-v}
+
+
+\section{Description}
+\Prog{ecru-info} is a tool for getting information about some entry from 
+the journal. It takes item id to show and displays information about it.
+You can get list of the item ids by calling \Cmd{ecru-list}{1}.
+
+\section{Options}
+
+\begin{Description}\setlength{\itemsep}{0cm}
+\item[\Opt{-v}] Show ecru version.
+\end{Description}
+
+\section{See Also}
+
+\Cmd{ecru-post}{1}, \Cmd{ecru-edit}{1}, \Cmd{ecru-delete}{1}, \Cmd{ecru-info}{1}
