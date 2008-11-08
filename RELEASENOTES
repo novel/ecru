@@ -1,0 +1,21 @@
+0.1.0 / Nov 8th, 2008
+
+The first public release of ecru. Most likely contains a lot of bugs
+since I seem to be the only person using it, though the code was 
+available on github for a while, so I'm not sure.
+
+So, generally it works and compiles fine here on FreeBSD box and at
+work on my Ubuntu box. I use it as a main livejournal client for the
+several months already and haven't had major problems with it, however,
+I do not guarantee it will not harm your journal (however it should 
+not :] ).
+
+Anyway, if you have any problems or question, feel free to join
+'ljecru' and write there:
+
+http://community.livejournal.com/ljecru/profile
+
+- novel
+
+--------------
+vi:ft=txt
