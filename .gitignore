@@ -6,3 +6,4 @@ output
 doc/ecru-introduction
 *.swp
 *.pyc
+*.tar.bz2

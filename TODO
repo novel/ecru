@@ -1,7 +1,7 @@
 Bugs
 -------------------------------
  * allowmask sometimes acts strange (almsk) (fixed I hope)
- * ecru-edit doesn't bring security field to the editor (edsec)
+ * ecru-edit doesn't bring security field to the editor (edsec) (fixed)
  * ecru-edit -- -1 should replace '-1' with the actual id before submitting (edshct) (fixed)
  * revtime and revnum properties should be adjusted
    when submitting editted post (seem to happen on livejournal side???)
@@ -12,9 +12,16 @@ Nice to have
  * Unit tests
    Figure out how to integrate unit test with waf in a nice way
  * Mutt-like headers configuration
- * Logging (lgng) (almsk kinda depends on it since it's useful for debugging)
+ * Logging (lgng) (almsk kinda depends on it since it's useful for debugging) (implemented)
+ * Footer like in svn, cvs, etc commit message editor, displaying stuff like
+   current using profile and so on, the message will be ignored when sending a post.
+   It should be configurable via config file
+ * Prompt message like "is everything ok? a) yes b) back to editor" etc. Should be
+   optional too
+ * Add a tool like 'ecru' for stuff like showing version (instead of adding '-v' option
+   to every ecru-* tool) and so on.
 
 -------------------------------------------------------------
 Release goals (or stoppers):
 
-0.1.0: lgng (done) + alsmk (done) + edsec + edshct
+0.1.0: lgng (done) + alsmk (done) + edsec (done) + edshct (done)

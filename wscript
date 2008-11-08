@@ -4,6 +4,7 @@ import Options
 from Configure import conf
 from config_c import parse_flags
 import UnitTest, Utils, Build, misc
+import os.path
 
 VERSION = '0.1.0'
 APPNAME = 'ecru'
@@ -17,9 +18,13 @@ def set_options(opt):
     opt.add_option('--debug', action='store_true', default=False,
             help='Compile with debug symbols')
 
+    opt.add_option('--mandir', type='string', 
+            help='path to install man pages')
+
 def configure(conf):
     conf.env["APPNAME"] = APPNAME
     conf.env["VERSION"] = VERSION
+    conf.env["MANDIR"] = os.path.join(conf.env["PREFIX"], "share", "man")
 
     conf.check_tool('g++')
     if not conf.env['CXX']:
@@ -40,6 +45,11 @@ def configure(conf):
     ret = Utils.cmd_output("%s c++2 client --cflags --libs --ldflags" % (conf.env['XMLRPC-C-CONFIG']))
     parse_flags(ret, 'XMLRPC', conf.env)
 
+    if Options.options.mandir:
+        conf.env["MANDIR"] = Options.options.mandir
+    else:
+        conf.env["MANDIR"] = os.path.join(conf.env["PREFIX"], "man")
+
     # for unit tests
     try:
         conf.check_cfg(package='cppunit', uselib_store='CPPUNIT', args='--cflags --libs')
@@ -56,6 +66,11 @@ def build(bld):
     if bld.env['LIB_CPPUNIT']:
         subdirs += ' tests'
     bld.add_subdirs(subdirs)
+    
+    
+    bld.install_files(os.path.join(bld.env["MANDIR"], "man1"),
+            "doc/man/man1/*.gz")
+           
 
 def shutdown():
     # Unit tests are run when "check" target is used

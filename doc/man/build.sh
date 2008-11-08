@@ -7,7 +7,7 @@ for i in *.tex; do
 	base=`echo $i|sed -e 's|.tex$||'`
 	tex="$base.tex"
 	html="$base.html"
-	man1="$base.1"
+	man1="$base.1.gz"
 	latex2man -H $tex html/$html
-	latex2man -M $tex man1/$man1
+	latex2man -M $tex -|gzip -c > man1/$man1
 done
