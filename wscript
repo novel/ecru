@@ -63,3 +63,23 @@ def shutdown():
     ut.change_to_testfile_dir = True
     ut.run()
     ut.print_results()
+
+import Scripting
+def dont_dist(name, src, build_dir):
+    excludes = '.git .gitignore'
+    exclude_exts = '~ .rej .orig .pyc .pyo .bak .tar.bz2 .core'.split()
+
+    if (name.startswith(".waf-")
+            or name in excludes
+            or name == build_dir
+            or (src == '.' and name == Options.lockfile)
+            ):
+        return True
+
+    for ext in exclude_exts:
+        if name.endswith(ext):
+            return True
+
+    return False
+
+Scripting.dont_dist = dont_dist
