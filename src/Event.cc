@@ -43,7 +43,6 @@ void Event::parseText(const string text)
 				string propName = line.substr(0, index);
 				string propValue = ecru::stripString(line.substr(index + 1));
 
-
 				// subject is actually not a property
 				if (propName == "subject") {
 					this->subject = (string)Glib::locale_to_utf8(propValue);
