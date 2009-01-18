@@ -22,9 +22,15 @@ def set_options(opt):
             help='path to install man pages')
 
 def configure(conf):
+    conf.check_tool('misc')    
+
     conf.env["APPNAME"] = APPNAME
     conf.env["VERSION"] = VERSION
     conf.env["MANDIR"] = os.path.join(conf.env["PREFIX"], "share", "man")
+
+    conf.define('APP_NAME', APPNAME)
+    conf.define('APP_VERSION', VERSION)
+    conf.write_config_header('src/ecru_version.h')
 
     conf.check_tool('g++')
     if not conf.env['CXX']:
