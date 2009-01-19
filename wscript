@@ -40,7 +40,7 @@ def configure(conf):
     if not conf.env['XMLRPC-C-CONFIG']:
         conf.fatal("xmlrpc-c-config wasn't found")
 
-    conf.env.append_value('CXXFLAGS', '-Wall -Werror -fPIC -fpic')
+    conf.env.append_value('CXXFLAGS', '-Wall -Werror')
 
     if Options.options.debug:
         conf.env.append_value('CXXFLAGS', '-g')
