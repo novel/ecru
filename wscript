@@ -81,6 +81,8 @@ def build(bld):
 def shutdown():
     # Unit tests are run when "check" target is used
     ut = UnitTest.unit_test()
+    ut.want_to_see_test_output = True
+    ut.want_to_see_test_error = True
     ut.change_to_testfile_dir = True
     ut.run()
     ut.print_results()
