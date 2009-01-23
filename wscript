@@ -73,11 +73,9 @@ def build(bld):
         subdirs += ' tests'
     bld.add_subdirs(subdirs)
     
-    
     bld.install_files(os.path.join(bld.env["MANDIR"], "man1"),
             "doc/man/man1/*.gz")
            
-
 def shutdown():
     # Unit tests are run when "check" target is used
     ut = UnitTest.unit_test()
