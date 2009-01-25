@@ -12,11 +12,13 @@ class EcruTest : public CPPUNIT_NS::TestFixture
 		CPPUNIT_TEST_SUITE( EcruTest );
 		CPPUNIT_TEST( testStripString );
 		CPPUNIT_TEST( testStripNewLines );
+		CPPUNIT_TEST( testExecuteCommandWithValidCommand );
 		CPPUNIT_TEST_SUITE_END();
 	
 	public:
 		void testStripString();
 		void testStripNewLines();
+		void testExecuteCommandWithValidCommand();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( EcruTest );
@@ -56,4 +58,15 @@ void EcruTest::testStripNewLines()
 
 	// without new lines
 	CPPUNIT_ASSERT("foo" == ecru::stripNewLines("foo"));
+}
+
+void EcruTest::testExecuteCommandWithValidCommand()
+{
+	vector<string> args;
+
+	args.push_back("-a");
+
+	int status = ecru::executeCommand("/usr/bin/uname", args);
+
+	CPPUNIT_ASSERT(status == 0);
 }
