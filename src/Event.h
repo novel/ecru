@@ -24,6 +24,7 @@ class Event {
 		void parseText(const string text);
 
 		void setUpDefaultProps();
+
 	public:		
 		Event();
 		Event(const string text);
@@ -62,6 +63,11 @@ class Event {
 		friend ostream& operator <<(ostream &os, const Event &event);
 
 		void dump(std::ostream &stream);
+
+		/*
+		 * Method that automatically figures out what kind of property
+		 * it is - keyword or a real property */
+		void smartSetProperty(std::string key, std::string value);
 };
 
 #endif // __EVENT_H

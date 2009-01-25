@@ -1,9 +1,7 @@
 Bugs
 -------------------------------
  * Defining properties with -Dprop doesn't work for some special props
-   like 'security' (dprop)
- * revtime and revnum properties should be adjusted
-   when submitting editted post (seem to happen on livejournal side???)
+   like 'security' (dprop) (done)
 
 Nice to have
 -------------------------------
@@ -23,4 +21,4 @@ Nice to have
 Release goals (or stoppers):
 
 0.1.0: lgng (done) + alsmk (done) + edsec (done) + edshct (done)
-0.2.0: dprop + ftr
+0.2.0: dprop (done) + ftr

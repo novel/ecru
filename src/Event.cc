@@ -43,26 +43,8 @@ void Event::parseText(const string text)
 				string propName = line.substr(0, index);
 				string propValue = ecru::stripString(line.substr(index + 1));
 
-				// subject is actually not a property
-				if (propName == "subject") {
-					this->subject = (string)Glib::locale_to_utf8(propValue);
-				} else if (propName == "security") {
-					// "security" is actually a property, but
-					// requires some special handling
-					string decodedPropValue = (string)Glib::locale_to_utf8(propValue);
-
-					if ((decodedPropValue != "public") &&
-						(decodedPropValue != "friendsonly") &&
-							(decodedPropValue != "private")) {
-						this->security = "public";
-					} else {
-						this->security = decodedPropValue;
-					}
-				} else {
-					this->properties[ecru::stripString(propName)] = (string)Glib::
-						locale_to_utf8(propValue);
-				}
-
+				smartSetProperty(propName, propValue);
+				
 				propertiesSpottedCount++;
 			} else if (linesRead == 0) {
 				// if it was the first line and no options were given, assume
@@ -78,6 +60,28 @@ void Event::parseText(const string text)
 	}
 
 	this->event = (string)Glib::locale_to_utf8(postText);
+}
+
+void Event::smartSetProperty(string property, string value)
+{
+	if (property == "subject") {
+		this->subject = (string)Glib::locale_to_utf8(value);
+	} else if (property == "security") {
+		// "security" is actually a property, but
+		// requires some special handling
+		string decodedPropValue = (string)Glib::locale_to_utf8(value);
+
+		if ((decodedPropValue != "public") &&
+			(decodedPropValue != "friendsonly") &&
+				(decodedPropValue != "private")) {
+			this->security = "public";
+		} else {
+			this->security = decodedPropValue;
+		}
+	} else {
+		this->properties[ecru::stripString(property)] = (string)Glib::
+			locale_to_utf8(value);
+	}
 }
 
 void Event::dump(ostream &stream) {

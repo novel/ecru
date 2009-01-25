@@ -169,7 +169,7 @@ int main(int argc, char** argv)
 
 	for (map<string,string>::iterator i = properties.begin(); i != properties.end(); i++) {
 		if (event->hasProperty(i->first) == false) {
-			event->setProperty(i->first, i->second);
+			event->smartSetProperty(i->first, i->second);
 		}
 	}
 
