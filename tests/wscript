@@ -1,7 +1,7 @@
 # vim:ft=python
 
 def build(bld):
-    bld.add_subdirs('ecru')
+    bld.add_subdirs('ecru livejournalxx')
     obj = bld.new_task_gen('cxx', 'staticlib')
     obj.source = 'main.cc'
     obj.target = 'unittestmain'

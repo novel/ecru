@@ -17,7 +17,6 @@ class EcruTest : public CPPUNIT_NS::TestFixture
 	public:
 		void testStripString();
 		void testStripNewLines();
-
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( EcruTest );
