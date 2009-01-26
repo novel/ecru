@@ -34,8 +34,23 @@ Config::Config()
 }
 
 string Config::queryConfigProperty(string property)
-{
-	string result = this->config->lookup(property);
+{	
+	string result;
+	libconfig::Setting& setting = this->config->lookup(property);
+
+	switch (setting.getType()) {
+		case libconfig::Setting::TypeString:
+			result = (const char*)setting;
+			break;
+		case libconfig::Setting::TypeBoolean:
+			//bool val = (bool)setting;
+			result = ((bool)setting) ? "true" : "false";
+			break;
+		default:
+			// XXX I guess it should be an exception
+			result = "unknown type.";
+			break;
+	}
 
 	return result;
 }
