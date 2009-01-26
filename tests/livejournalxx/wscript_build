@@ -2,7 +2,7 @@
 
 obj = bld.new_task_gen('cxx', 'program')
 obj.find_sources_in_dirs('.')
-obj.uselib = 'CPPUNIT'
+obj.uselib = 'CPPUNIT LIBCONFIGXX'
 obj.uselib_local = 'unittestmain ecru livejournalxx'
 obj.includes = '../../src'
 obj.unit_test = 1

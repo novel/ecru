@@ -11,6 +11,11 @@
 
 using namespace std;
 
+Config::Config(libconfig::Config *cfg)
+{
+	this->config = cfg;
+}
+
 Config::Config()
 {
 	this->configDirectory = std::string(getenv("HOME")) + "/.ecru/";

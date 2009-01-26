@@ -14,6 +14,7 @@ class Config {
 		libconfig::Config *config;
 		string configDirectory;
 	public:
+		Config(libconfig::Config *cfg);
 		Config();
 //		~Config();
 
