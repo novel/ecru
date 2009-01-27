@@ -4,6 +4,8 @@ build
 .lock-wscript
 output
 doc/ecru-introduction
+doc/man/man1
+doc/man/html
 *.swp
 *.pyc
 *.tar.bz2
