@@ -20,8 +20,6 @@ Config::Config()
 {
 	this->configDirectory = std::string(getenv("HOME")) + "/.ecru/";
 
-	//string filename = std::string(getenv("HOME")) + "/.ecru/default.conf";
-	//string filename = this->configDirectory + "default.conf";
 	string filename = getCurrentConfigFilename();
 
 	libconfig::Config *cfg = new libconfig::Config();
@@ -48,7 +46,6 @@ string Config::queryConfigProperty(string property)
 			result = (const char*)setting;
 			break;
 		case libconfig::Setting::TypeBoolean:
-			//bool val = (bool)setting;
 			result = ((bool)setting) ? "true" : "false";
 			break;
 		default:

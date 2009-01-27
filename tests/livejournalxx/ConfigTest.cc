@@ -38,11 +38,13 @@ void ConfigTest::testThatQueryConfigPropertyWorksOkForStrings()
 	configSetting.add("true", libconfig::Setting::TypeBoolean);
 	configSetting.add("false", libconfig::Setting::TypeBoolean);
 	configSetting["test"] = "foobar";
+	configSetting["true"] = true;
+	configSetting["false"] = false;
 
 	Config *config = new Config(cfg);
 
 	string result = config->queryConfigProperty("config.test");
 	CPPUNIT_ASSERT(result == "foobar");
-	// XXX
-	//cout << config->queryConfigProperty("config.true") << endl;
+	CPPUNIT_ASSERT("true" == config->queryConfigProperty("config.true"));
+	CPPUNIT_ASSERT("false" == config->queryConfigProperty("config.false"));
 }
