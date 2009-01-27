@@ -15,12 +15,14 @@ class EventTest : public CPPUNIT_NS::TestFixture
 		CPPUNIT_TEST( testParseSimpleText );
 		CPPUNIT_TEST( testParseTextWithKeywordsAndProps );
 		CPPUNIT_TEST( testSecurityFieldBehaviour );
+		CPPUNIT_TEST( testThatLinesStartingWithEcruAreSkipped );
 		CPPUNIT_TEST_SUITE_END();
 	
 	public:
 		void testParseSimpleText();
 		void testParseTextWithKeywordsAndProps();
 		void testSecurityFieldBehaviour();
+		void testThatLinesStartingWithEcruAreSkipped();
 
 };
 
@@ -66,4 +68,14 @@ void EventTest::testSecurityFieldBehaviour()
 	CPPUNIT_ASSERT(eventFriendsOnly->getSecurity() == "friendsonly");
 	CPPUNIT_ASSERT(eventPrivate->getSecurity() == "private");
 	CPPUNIT_ASSERT(eventUnknown->getSecurity() == "public");
+}
+
+void EventTest::testThatLinesStartingWithEcruAreSkipped()
+{
+	const string text = "subject: hello\n\nhello world\nwasup?\necru:test\nsomething again\n";
+
+	Event *event = new Event(text);
+	string eventText = event->getEvent();
+
+	cout << eventText << endl;
 }

@@ -36,7 +36,11 @@ void Event::parseText(const string text)
 
 	while (getline(stream, line)) {
 		if (postTextMode) {
-			postText += line + "\n";
+			// we skip lines starting with "ecru:"
+			if (line.length() < 5)
+				postText += line + "\n";
+			else if (line.compare(0, 5, "ecru:") != 0)
+				postText += line + "\n";
 		} else {
 			size_t index = line.find(":");
 			if (index != string::npos) {
