@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 #include <glibmm.h>
 
@@ -88,7 +89,9 @@ void Event::smartSetProperty(string property, string value)
 	}
 }
 
-void Event::dump(ostream &stream) {
+string Event::to_string() {
+	stringstream stream;
+
 	bool hasSubject = false;
 	bool hasSecurity = false;
 
@@ -119,7 +122,16 @@ void Event::dump(ostream &stream) {
 	if (hasSubject || hasSecurity || hasProperties) {
 		stream << endl;
 	}
-	stream << this->event << endl;
+	stream << this->event;
+
+	return stream.str();
+}
+
+string Event::dump(ostream &stream) {
+	string result = this->to_string();
+	
+	stream << result;
+	return result;
 }
 
 ostream& operator <<(ostream &os, const Event &event)

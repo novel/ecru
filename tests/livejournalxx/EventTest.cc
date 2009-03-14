@@ -16,6 +16,7 @@ class EventTest : public CPPUNIT_NS::TestFixture
 		CPPUNIT_TEST( testParseTextWithKeywordsAndProps );
 		CPPUNIT_TEST( testSecurityFieldBehaviour );
 		CPPUNIT_TEST( testThatLinesStartingWithEcruAreSkipped );
+		CPPUNIT_TEST( testThatToStringOutputFormatIsSane );
 		CPPUNIT_TEST_SUITE_END();
 	
 	public:
@@ -23,7 +24,7 @@ class EventTest : public CPPUNIT_NS::TestFixture
 		void testParseTextWithKeywordsAndProps();
 		void testSecurityFieldBehaviour();
 		void testThatLinesStartingWithEcruAreSkipped();
-
+		void testThatToStringOutputFormatIsSane();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( EventTest );
@@ -78,4 +79,13 @@ void EventTest::testThatLinesStartingWithEcruAreSkipped()
 	string eventText = event->getEvent();
 
 	cout << eventText << endl;
+}
+
+void EventTest::testThatToStringOutputFormatIsSane()
+{
+	const string text = "subject: hello\nsecurity: public\ncurrent_music: foobar\n\nhello world";
+
+	Event *event = new Event(text);
+
+	CPPUNIT_ASSERT(event->to_string() == text + "\n");
 }

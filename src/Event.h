@@ -62,7 +62,9 @@ class Event {
 
 		friend ostream& operator <<(ostream &os, const Event &event);
 
-		void dump(std::ostream &stream);
+		string to_string();
+			
+		string dump(std::ostream &stream);
 
 		/*
 		 * Method that automatically figures out what kind of property
