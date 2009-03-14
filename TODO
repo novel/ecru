@@ -17,10 +17,10 @@ Nice to have
  * Add a tool like 'ecru' for stuff like showing version (instead of adding '-v' option
    to every ecru-* tool) and so on.
  * When calling 'ecru-edit' and then just closing the editor without making any changes,
-   don't resubmut stuff, just ignore (blnkchng)
+   don't resubmut stuff, just ignore (blnkchng) (done)
 
 -------------------------------------------------------------
 Release goals (or stoppers):
 
 0.1.0: lgng (done) + alsmk (done) + edsec (done) + edshct (done)
-0.2.0: dprop (done) + ftr + blnkchng
+0.2.0: dprop (done) + ftr + blnkchng (done)
