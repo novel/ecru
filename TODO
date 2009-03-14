@@ -18,9 +18,14 @@ Nice to have
    to every ecru-* tool) and so on.
  * When calling 'ecru-edit' and then just closing the editor without making any changes,
    don't resubmut stuff, just ignore (blnkchng) (done)
+ * LiveJournal supports reffering to latest post by pseudo id "-1" (e.g. in ecru-edit). It
+   would be useful to extend it to support not only "-1", but "-N", i.e. "edit the post N posts
+   back". Maybe it should be done with some prefix, e.g. "ecru-edit :-3", because if
+   we stay with just "-3" user will have to execute it this way: "ecru-edit -- -3" because
+   of getopt (nthpst)
 
 -------------------------------------------------------------
 Release goals (or stoppers):
 
 0.1.0: lgng (done) + alsmk (done) + edsec (done) + edshct (done)
-0.2.0: dprop (done) + ftr + blnkchng (done)
+0.2.0: dprop (done) + ftr + blnkchng (done) + nthpst (??? mb 0.3.0)
