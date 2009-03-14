@@ -22,6 +22,7 @@ string invoke_editor(Event *ljevent)
 {
 	string editor;
 	string result;
+	string orig_content;
 
 	try {
 		editor = getenv("EDITOR");
@@ -34,7 +35,7 @@ string invoke_editor(Event *ljevent)
 	tmpFilename = ecru::generateTmpFile();
 
 	ofstream fout(tmpFilename);
-	ljevent->dump(fout);
+	orig_content = ljevent->dump(fout);
 	fout.close();
 
 	int ret = system( (editor + " " + tmpFilename).c_str() );
@@ -54,8 +55,14 @@ string invoke_editor(Event *ljevent)
 	while (getline(mystream, line)) {
 		 result += line + "\n";
 	}
-
 	mystream.close();
+
+	result.erase(result.end() - 1);
+
+	if (result == orig_content) {
+		cout << "Nothing changed!" << endl;
+		exit(0);
+	}
 
 	if (remove(tmpFilename) != 0) {
 		perror(tmpFilename);

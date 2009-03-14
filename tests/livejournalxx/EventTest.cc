@@ -87,5 +87,5 @@ void EventTest::testThatToStringOutputFormatIsSane()
 
 	Event *event = new Event(text);
 
-	CPPUNIT_ASSERT(event->to_string() == text + "\n");
+	CPPUNIT_ASSERT(event->to_string() == text);
 }

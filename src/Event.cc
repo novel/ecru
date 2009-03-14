@@ -64,6 +64,8 @@ void Event::parseText(const string text)
 		linesRead++;
 	}
 
+	postText.erase(postText.end() - 1); // last new line makes no sense
+
 	this->event = (string)Glib::locale_to_utf8(postText);
 }
 
