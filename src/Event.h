@@ -64,7 +64,7 @@ class Event {
 
 		string to_string();
 			
-		string dump(std::ostream &stream);
+		string dump(std::ostream &stream, bool add_footer = false);
 
 		/*
 		 * Method that automatically figures out what kind of property

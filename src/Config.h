@@ -13,10 +13,16 @@ class Config {
 	private:
 		libconfig::Config *config;
 		string configDirectory;
-	public:
-		Config(libconfig::Config *cfg);
+
+		static Config* _instance;
+	protected:
 		Config();
+	public:
+		static Config* instance();
+		Config(libconfig::Config *cfg);
+//		Config();
 //		~Config();
+		libconfig::Config* getConfig() { return this->config; };
 
 		string queryConfigProperty(string property);
 

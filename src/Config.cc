@@ -11,6 +11,17 @@
 
 using namespace std;
 
+Config* Config::_instance = 0;
+
+Config* Config::instance()
+{
+	if (_instance == 0) {
+		_instance = new Config;
+	}
+
+	return _instance;
+}
+
 Config::Config(libconfig::Config *cfg)
 {
 	this->config = cfg;
@@ -38,23 +49,31 @@ Config::Config()
 
 string Config::queryConfigProperty(string property)
 {	
-	string result;
-	libconfig::Setting& setting = this->config->lookup(property);
+	cout << property << endl;
 
-	switch (setting.getType()) {
-		case libconfig::Setting::TypeString:
-			result = (const char*)setting;
-			break;
-		case libconfig::Setting::TypeBoolean:
-			result = ((bool)setting) ? "true" : "false";
-			break;
-		default:
-			// XXX I guess it should be an exception
-			result = "unknown type.";
-			break;
+	try {
+		string result;
+		libconfig::Setting& setting = this->config->lookup(property);
+
+		switch (setting.getType()) {
+			case libconfig::Setting::TypeString:
+				result.assign((const char*)setting);
+				break;
+			case libconfig::Setting::TypeBoolean:
+				result = ((bool)setting) ? "true" : "false";
+				break;
+			default:
+				// XXX I guess it should be an exception
+				result = "unknown type.";
+				break;
+		}
+
+		return result;
+	} catch (libconfig::SettingNotFoundException& ex) {
+		cerr << "Setting \"" << property << "\" was not found!" << endl;
+		this->config->writeFile("error.txt");
+		exit(1);
 	}
-
-	return result;
 }
 
 string Config::getCurrentConfigFilename()

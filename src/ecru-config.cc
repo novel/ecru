@@ -20,7 +20,7 @@ void usage()
 
 void listConfigProfiles() {
 	//cout << "hello world" << endl;
-	Config *config = new Config();
+	Config *config = Config::instance();
 	
 	string currentConfigFilename = config->getCurrentConfigFilename();
 
@@ -43,7 +43,7 @@ void listConfigProfiles() {
 
 void setCurrentConfigFilename(string filename)
 {
-	Config *config = new Config();
+	Config *config = Config::instance();
 
 	config->setCurrentConfigFilename(filename);
 }
@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
 		if (argc < 1)
 			usage();
 
-		Config *config = new Config();
+		Config *config = Config::instance();
 		try {
 			cout << config->queryConfigProperty(argv[0]) << endl;
 		} catch (libconfig::SettingNotFoundException& ex) {

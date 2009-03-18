@@ -129,7 +129,7 @@ string Event::to_string() {
 	return stream.str();
 }
 
-string Event::dump(ostream &stream) {
+string Event::dump(ostream &stream, bool append_footer) {
 	string result = this->to_string();
 	
 	stream << result;

@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "ecru_version.h"
 
@@ -52,6 +53,11 @@ namespace ecru {
 	  * Represent integer as binary
 	  */
 	string getBinary(int integer);
+
+	/**
+	  * Replaces "$keywords" in text with the values from the map
+	  */
+	string format(string text, map<string,string> keywords);
 }
 
 #endif // __ECRU_H

@@ -18,7 +18,7 @@ LiveJournal::LiveJournal()
 {
 	setlocale(LC_ALL, "");
 	
-	this->config = new Config();
+	this->config = Config::instance();
 
 	this->username = this->config->queryConfigProperty("config.account.login");
 	this->passwd = this->config->queryConfigProperty("config.account.password");

@@ -175,3 +175,28 @@ string ecru::getBinary(int integer)
 
 	return result;
 }
+
+string ecru::format(string text, map<string,string> keywords)
+{
+	unsigned int i = 1;
+	while (i < text.length() - 1) {
+		if ((text[i] == '$') && (text[i-1] = ' ') &&
+				isalpha(text[i+1])) {
+			int start = i;
+					       
+			while (isalpha(text[i+1]) != 0)
+				i++;
+					        
+			string keyword = text.substr(start + 1, i - start);
+			map<string, string>::iterator iter = keywords.find(keyword);
+			if (iter != keywords.end()) {
+				text.replace(start, i - start + 1, keywords[keyword]);
+			}
+		}
+							       
+ 		i++;
+	}
+
+	return text;
+}
+

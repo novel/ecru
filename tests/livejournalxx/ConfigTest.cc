@@ -13,12 +13,14 @@ class ConfigTest : public CPPUNIT_NS::TestFixture
 	private:
 		CPPUNIT_TEST_SUITE( ConfigTest );
 		CPPUNIT_TEST( ConfigTest::testThatQueryConfigPropertyWorksOkForStrings );
+		CPPUNIT_TEST( ConfigTest::testDoulbeLookupIsOk );
 		CPPUNIT_TEST_SUITE_END();
 	
 	public:
 		void setUp();
 
 		void testThatQueryConfigPropertyWorksOkForStrings();
+		void testDoulbeLookupIsOk();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ConfigTest );
@@ -47,4 +49,14 @@ void ConfigTest::testThatQueryConfigPropertyWorksOkForStrings()
 	CPPUNIT_ASSERT(result == "foobar");
 	CPPUNIT_ASSERT("true" == config->queryConfigProperty("config.true"));
 	CPPUNIT_ASSERT("false" == config->queryConfigProperty("config.false"));
+}
+
+/* an integration environment specific test, it's bad */
+void ConfigTest::testDoulbeLookupIsOk()
+{
+	Config *config = Config::instance();
+
+	cout << config->getCurrentConfigFilename();
+//	string result = config->queryConfigProperty("config.account.login");// << endl;
+//	cout << config->queryConfigProperty("config.account.login") << endl;
 }

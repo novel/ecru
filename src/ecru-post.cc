@@ -27,6 +27,7 @@ string invoke_editor(string templateName)
 {
 	string editor;
 	string result;
+	Config* config = Config::instance();
 
 	Template *templ = new Template();
 
@@ -48,11 +49,22 @@ string invoke_editor(string templateName)
 
 	delete templ;
 
+	ofstream fout(tmp_filename);
+
+	// apply templates
 	if (templateContent.length() > 0) {
-		ofstream fout(tmp_filename);
 		fout << templateContent;
-		fout.close();
 	}
+
+	// apply footer
+	if (config->queryConfigProperty("config.footer.append") == "true") {
+		map<string, string> keywords;
+		keywords["login"] = config->queryConfigProperty("config.account.login");
+
+		fout << ecru::format(config->queryConfigProperty("config.footer.text"), keywords) << endl;
+	}
+	
+	fout.close();
 
 	// time to apply pre-hooks
 	Hook *hook = new Hook();
