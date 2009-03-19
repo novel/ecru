@@ -51,7 +51,10 @@ string Config::queryConfigProperty(string property)
 {	
 	cout << property << endl;
 
-	try {
+//	try {
+//
+		this->config->writeFile( string("dump" + property + "_before.txt").c_str() );
+
 		string result;
 		libconfig::Setting& setting = this->config->lookup(property);
 
@@ -68,12 +71,14 @@ string Config::queryConfigProperty(string property)
 				break;
 		}
 
+		this->config->writeFile( string("dump" + property + "_after.txt").c_str());
+
 		return result;
-	} catch (libconfig::SettingNotFoundException& ex) {
+/*	} catch (libconfig::SettingNotFoundException& ex) {
 		cerr << "Setting \"" << property << "\" was not found!" << endl;
 		this->config->writeFile("error.txt");
 		exit(1);
-	}
+	}*/
 }
 
 string Config::getCurrentConfigFilename()

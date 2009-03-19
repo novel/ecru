@@ -173,8 +173,8 @@ void LiveJournal::login() {
 		return;
 	}
 
-	string login = this->config->queryConfigProperty("config.account.login");
-	string passwd = this->config->queryConfigProperty("config.account.password");
+	string login = username;//this->config->queryConfigProperty("config.account.login");
+	string passwd = passwd;//this->config->queryConfigProperty("config.account.password");
 
 	string const serverUrl("http://livejournal.com:80/interface/xmlrpc");
 	string const methodName("LJ.XMLRPC.login");

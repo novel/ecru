@@ -59,7 +59,8 @@ string invoke_editor(string templateName)
 	// apply footer
 	if (config->queryConfigProperty("config.footer.append") == "true") {
 		map<string, string> keywords;
-		keywords["login"] = config->queryConfigProperty("config.account.login");
+		/*keywords["login"] = */ cout << config->queryConfigProperty("config.account.login") << endl;
+		/*keywords["login"] = */ cout << config->queryConfigProperty("config.account.login") << endl;
 
 		fout << ecru::format(config->queryConfigProperty("config.footer.text"), keywords) << endl;
 	}
@@ -159,7 +160,9 @@ int main(int argc, char** argv)
 	} else {
 		text = invoke_editor(templateName);
 	}
-
+	
+	cout << "HERE" << endl;
+	cout << Config::instance()->queryConfigProperty("config.account.login") << endl;
 	LiveJournal *livejournal = new LiveJournal();
 
 	Event *event = new Event(text);
