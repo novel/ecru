@@ -27,5 +27,5 @@ Logger::Logger()
 
 void Logger::debug(string message)
 {
-	syslog(LOG_DEBUG, message.c_str());
+	syslog(LOG_DEBUG, "%s",  message.c_str());
 }

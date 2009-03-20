@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include <map>
 
@@ -62,7 +63,7 @@ int main(int argc, char** argv)
 		// security
 		string security = ljevent->getSecurity();
 
-		if (security.length() != 0)
+		if (security.length() != 0) {
 			if ((security == "public") || (security == "private")) {
 				cout << "security: " << security << endl;
 			} else {
@@ -71,6 +72,8 @@ int main(int argc, char** argv)
 			       	cout << ecru::getBinary(ljevent->getAllowmask());
 				cout << ")" << endl;
 			}
+		}
+
 		// list keywords
 		map<string, string> properties = ljevent->getProperties();
 

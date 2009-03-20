@@ -1,6 +1,7 @@
 #include "Config.h"
 #include "ecru.h"
 
+#include <cstdlib>
 #include <iostream>
 #include <fstream>
 
