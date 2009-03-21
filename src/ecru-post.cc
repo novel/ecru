@@ -28,14 +28,11 @@ string invoke_editor(string templateName)
 	string editor;
 	string result;
 	Config* config = Config::instance();
+	char *env = 0;
 
 	Template *templ = new Template();
 
-	try {
-		editor = getenv("EDITOR");
-	} catch (exception ex) {
-		editor = "vi";
-	}
+	editor = (env = getenv("EDITOR")) ? env : "vi";	
 
 	//cout << "using editor: " << editor << endl;
 	

@@ -24,11 +24,8 @@ string invoke_editor(Event *ljevent)
 	string result;
 	string orig_content;
 
-	try {
-		editor = getenv("EDITOR");
-	} catch (exception ex) {
-		editor = "vi";
-	}
+	char *env = 0;
+	editor = (env = getenv("EDITOR")) ? env : "vi";
 
 	char *tmpFilename;
 
