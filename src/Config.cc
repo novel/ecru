@@ -110,11 +110,11 @@ void Config::setCurrentConfigFilename(string filename)
 
 vector<string> Config::listConfigFiles()
 {
-	vector<string> files = ecru::listDirectory(this->configDirectory);
+	vector<string> *files = ecru::listDirectory(this->configDirectory);
 	vector<string> configFiles;
 
-	for (unsigned int i = 0; i < files.size(); i++) {
-		string filename = files[i];
+	for (unsigned int i = 0; i < files->size(); i++) {
+		string filename = (*files)[i];
 
 		if (filename.length() > 5) {
 			// we're interested only in "*.conf$" files

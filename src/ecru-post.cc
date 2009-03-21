@@ -66,7 +66,8 @@ string invoke_editor(string templateName)
 
 	// time to apply pre-hooks
 	Hook *hook = new Hook();
-	hook->execPreHooks(string(tmp_filename));
+	string tmp_str = string(tmp_filename);
+	hook->execPreHooks(tmp_str);
 
 	int ret = system( (editor + " " + tmp_filename).c_str() );
 

@@ -23,18 +23,20 @@ void ecru::version()
   * Get directory listing.
   * @return a list of files in directory as vector of strings
   */
-vector<string> ecru::listDirectory(string path)
+vector<string> *ecru::listDirectory(string &path)
 {
 	DIR *dp;
 	struct dirent *dirp;
-	vector<string> files;
+	vector<string> *files = new vector<string>;
 
 	if ((dp = opendir(path.c_str())) == NULL) {
 		cerr << "error opening dir: " << path << endl;
+
+		// XXX exception
 	}
 
 	while ((dirp = readdir(dp)) != NULL) {
-		files.push_back(string(dirp->d_name));
+		files->push_back(string(dirp->d_name));
 	}
 
 	closedir(dp);

@@ -111,7 +111,7 @@ int main(int argc, char** argv) {
 		cout << "To install it, type: cp -r " << configPath << " ~/.ecru" << endl;
 	} else if (hookType.length() > 0) {
 		Hook *hook = new Hook();
-		vector<string> hooks;
+		vector<string> *hooks;
 
 		if (hookType == "pre") {
 			hooks = hook->getPreHooks();
@@ -119,9 +119,11 @@ int main(int argc, char** argv) {
 			hooks = hook->getPostHooks();
 		}
 		
-		for (unsigned int i = 0; i < hooks.size(); i++) {
-			cout << hooks[i] << endl;
+		for (unsigned int i = 0; i < hooks->size(); i++) {
+			cout << (*hooks)[i] << endl;
 		}
+
+		delete hooks;
 	} else {
 		if (argc < 1)
 			usage();

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "Template.h"
 #include "ecru.h"
@@ -15,11 +16,11 @@ Template::Template()
 
 vector<string> Template::listTemplates()
 {
-	vector<string> files = ecru::listDirectory(this->templateDir);
+	vector<string> *files = ecru::listDirectory(this->templateDir);
 	vector<string> templates;
 
-	for (unsigned int i = 0; i < files.size(); i++) {
-		string filename = files[i];
+	for (unsigned int i = 0; i < files->size(); i++) {
+		string filename = (*files)[i];
 
 		if (filename[0] != '.') {
 			templates.push_back(filename);
