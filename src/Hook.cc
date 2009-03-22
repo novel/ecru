@@ -50,16 +50,14 @@ void Hook::execPreHooks(string& filename)
 
 void Hook::execPostHooks(string filename)	
 {
-//	this->execHooks(this->getPostHooks(), filename);
+	this->execHooks(*(this->getPostHooks()), filename);
 }
 
 void Hook::execHooks(vector<string> &hooks, string& filename)
 {
-#if 0
 	for (unsigned int i = 0; i < hooks.size(); i++) {
 		vector<string> args;
 		args.push_back(filename);
 		ecru::executeCommand(hooks[i], args);
 	}
-#endif
 }

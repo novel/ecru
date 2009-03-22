@@ -117,10 +117,10 @@ string ecru::getConfigDirectory()
 
 bool ecru::isExecutable(string path)
 {
-	struct stat *st = (struct stat*)malloc(sizeof(struct stat*));
-	stat(path.c_str(), st);
+	struct stat st;
+	stat(path.c_str(), &st);
 
-	if (st->st_mode & S_IXUSR) 
+	if (st.st_mode & S_IXUSR) 
 		return true;
 	else 
 		return false;

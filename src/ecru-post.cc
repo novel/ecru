@@ -159,8 +159,6 @@ int main(int argc, char** argv)
 		text = invoke_editor(templateName);
 	}
 	
-	cout << "HERE" << endl;
-	cout << Config::instance()->queryConfigProperty("config.account.login") << endl;
 	LiveJournal *livejournal = new LiveJournal();
 
 	Event *event = new Event(text);
@@ -170,7 +168,6 @@ int main(int argc, char** argv)
 		exit(0);
 	}
 
-	
 	// command line properties doesn't override the ones defined in text 
 	if ((event->getSubject().length() == 0) && (subject.length() > 0)) {
 		event->setSubject(subject);
