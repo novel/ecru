@@ -182,6 +182,11 @@ int main(int argc, char** argv)
 		}
 	}
 
-	string postUrl = livejournal->postEvent(event);
-	cout << "Location of your post is: " << postUrl << endl;
+	try {
+		string postUrl = livejournal->postEvent(event);
+		cout << "Location of your post is: " << postUrl << endl;
+	} catch (girerr::error& err) {
+		cout << "Error: post wasn't submitted!" << endl;
+		cout << "LiveJournal server reported the following error: " << err.what() << endl;
+	}
 }

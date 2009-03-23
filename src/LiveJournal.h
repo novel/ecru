@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 
+#include <xmlrpc-c/girerr.hpp>
 #include <xmlrpc-c/base.hpp>
 
 #include "Config.h"
