@@ -115,7 +115,7 @@ string ecru::getConfigDirectory()
 	return string(getenv("HOME")) + "/.ecru/"; 
 }
 
-bool ecru::isExecutable(string path)
+bool ecru::isExecutable(string& path)
 {
 	struct stat st;
 	stat(path.c_str(), &st);

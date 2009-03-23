@@ -56,8 +56,7 @@ string invoke_editor(string templateName)
 	// apply footer
 	if (config->queryConfigProperty("config.footer.append") == "true") {
 		map<string, string> keywords;
-		/*keywords["login"] = */ cout << config->queryConfigProperty("config.account.login") << endl;
-		/*keywords["login"] = */ cout << config->queryConfigProperty("config.account.login") << endl;
+		keywords["login"] = config->queryConfigProperty("config.account.login");
 
 		fout << ecru::format(config->queryConfigProperty("config.footer.text"), keywords) << endl;
 	}

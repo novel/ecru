@@ -40,7 +40,7 @@ namespace ecru {
 	  *
 	  * @return true if executable, false otherwise
 	  */
-	bool isExecutable(string path);
+	bool isExecutable(string& path);
 
 	/**
 	  * Execute command
